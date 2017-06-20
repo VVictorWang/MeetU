@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="150dp"
+    android:layout_height="100dp"
+    android:background="@drawable/sort_back"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/near_me"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="56dp">
+
+        <ImageView
+            android:id="@+id/near_me_image"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/sortplace" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/near_me_image"
+            android:text="离我最近"
+            android:textSize="14sp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/sort_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="22dp">
+
+        <ImageView
+            android:id="@+id/sort_time_image"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/sorttime" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/sort_time_image"
+            android:text="时间最赶"
+            android:textSize="14sp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/sort_girl"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="12dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp">
+
+        <ImageView
+            android:id="@+id/sort_girl_image"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/sortgirl" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/sort_girl_image"
+            android:text="妹子优先"
+            android:textSize="14sp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/show_map_layout"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="12dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp">
+
+        <ImageView
+            android:id="@+id/show_map"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/iconplace24" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/show_map"
+            android:text="查看地图"
+            android:textSize="14sp" />
+    </RelativeLayout>
+</LinearLayout>

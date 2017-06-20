@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="FontColorDefault">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="blue">#6aafe6</color>
+    <color name="MessageBoy">#8EC0E4</color>
+    <color name="MessageGirl">#FFA7BE</color>
+    <color name="MessageSecret">#A88EE4</color>
+    <color name="black">#000</color>
+    <color name="TabSelected">#6AAFE6</color>
+</resources>

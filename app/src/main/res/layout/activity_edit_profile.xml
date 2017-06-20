@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/hall_back"
+    tools:context="com.hackday.play.View.EditProfileActivity">
+
+    <RelativeLayout
+        android:id="@+id/edit_profile_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/edit_back"
+            android:src="@drawable/returnb" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/blue"
+            android:layout_marginTop="10dp"
+            android:text="修改信息"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/edit_id_infor"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/edit_profile_toolbar"
+        android:layout_marginTop="16dp"
+        android:background="@color/white"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:text="ID"
+            android:layout_centerVertical="true"
+            android:textColor="@color/blue"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40dp"
+            android:text="NO.001"
+            android:layout_centerVertical="true"
+            android:textColor="@color/blue"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/edit_name_infor"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/edit_id_infor"
+        android:layout_marginTop="16dp"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:text="昵称"
+            android:layout_centerVertical="true"
+            android:textColor="@color/blue"
+            android:textSize="14sp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40dp"
+            android:background="@null"
+            android:layout_centerVertical="true"
+            android:id="@+id/edit_name"
+            android:cursorVisible="false"
+            android:text="第一个没名字的"
+            android:textColor="@color/blue"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/edit_phone_infor"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/edit_name_infor"
+        android:layout_marginTop="16dp"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:text="手机号"
+            android:layout_centerVertical="true"
+            android:textColor="@color/blue"
+            android:textSize="14sp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40dp"
+            android:background="@null"
+            android:layout_centerVertical="true"
+            android:id="@+id/edit_phone"
+            android:cursorVisible="false"
+            android:text="1888909289"
+            android:textColor="@color/blue"
+            android:textSize="14sp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/edit_qq_infor"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/edit_phone_infor"
+        android:layout_marginTop="16dp"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:text="qq"
+            android:layout_centerVertical="true"
+            android:textColor="@color/blue"
+            android:textSize="14sp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40dp"
+            android:background="@null"
+            android:layout_centerVertical="true"
+            android:id="@+id/edit_qq"
+            android:cursorVisible="false"
+            android:text="235342234"
+            android:textColor="@color/blue"
+            android:textSize="14sp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/edit_location_infor"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_below="@+id/edit_qq_infor"
+        android:layout_marginTop="16dp"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_centerVertical="true"
+            android:text="定位"
+            android:textColor="@color/blue"
+            android:textSize="14sp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40dp"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:id="@+id/edit_location"
+            android:cursorVisible="false"
+            android:text="华中科技大学"
+            android:textColor="@color/blue"
+            android:textSize="14sp" />
+    </RelativeLayout>
+    <Button
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="560dp"
+        android:layout_centerHorizontal="true"
+        android:text="确认修改"
+        android:id="@+id/confirm_edit"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:background="@drawable/button_big_b"
+
+        />
+
+</RelativeLayout>

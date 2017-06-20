@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/hall_back"
+    android:layout_height="match_parent"
+    tools:context="com.hackday.play.View.FinishActivity">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="156dp"
+        android:layout_marginLeft="140dp"
+        android:id="@+id/finish_image"
+        android:src="@drawable/process_ill"/>
+    <Button
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="336dp"
+        android:layout_marginLeft="100dp"
+        android:id="@+id/safe_get"
+        android:background="@drawable/button_big_b"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:text="平安到达"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="408dp"
+        android:id="@+id/happen_something"
+        android:layout_marginLeft="150dp"
+        android:textColor="@color/blue"
+        android:textSize="12sp"
+        android:text="意外情况?"/>
+
+
+</RelativeLayout>

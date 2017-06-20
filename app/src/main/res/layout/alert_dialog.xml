@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/TabSelected"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:background="@drawable/icontaskc2" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:id="@+id/dialog_text"
+            android:text="欢迎加入 Meet U !\n先去完善下个人信息吧OvO"
+            android:textColor="@color/FontColorDefault" />
+
+        <Button
+            android:id="@+id/dialog_positive"
+            android:layout_width="110dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:background="@drawable/button_middle_b"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:text="我知道啦" />
+
+    </LinearLayout>
+</LinearLayout>
