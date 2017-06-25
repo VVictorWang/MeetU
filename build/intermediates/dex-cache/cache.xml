@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/home/victor/Ok/MeetU/app/libs/BaiduLBS_Android.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="956bcbf7c2cc5827cc9ef339d7b8a9701c76ece4">
+        <dex dex="/home/victor/Ok/MeetU/app/build/intermediates/transforms/dex/debug/folders/1000/2/BaiduLBS_Android_6fa59f8549e0db445ae13eeea2b8d7cd6e4f059b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/Ok/MeetU/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/home/victor/Ok/MeetU/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_bad82366007e1ba8dda95cd0d941062399a0aba9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/Ok/MeetU/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="88b7e037d4ddf171cd8be2d26116d78f7e61ff37">
+        <dex dex="/home/victor/Ok/MeetU/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_43aa978047cb539679bd81741b645998b40d637d/classes.dex" />
+    </item>
+
+</items>
