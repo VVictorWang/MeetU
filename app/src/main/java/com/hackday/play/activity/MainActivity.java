@@ -1,4 +1,4 @@
-package com.hackday.play.View;
+package com.hackday.play.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,16 +22,16 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.hackday.play.Adapters.MyFragAdapter;
+import com.hackday.play.adapters.MyFragAdapter;
 import com.hackday.play.MyApplication;
-import com.hackday.play.NotificitionService;
+import com.hackday.play.service.NotificitionService;
 import com.hackday.play.R;
-import com.hackday.play.Utils.MyActivityManager;
-import com.hackday.play.View.Fragments.MyFragment;
-import com.hackday.play.View.Fragments.SquareFragment;
-import com.hackday.play.Utils.GlobaData;
-import com.hackday.play.Utils.LocationInfor;
-import com.hackday.play.Utils.Utils;
+import com.hackday.play.utils.MyActivityManager;
+import com.hackday.play.fragments.MyFragment;
+import com.hackday.play.fragments.SquareFragment;
+import com.hackday.play.data.GlobaData;
+import com.hackday.play.data.LocationInfor;
+import com.hackday.play.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;

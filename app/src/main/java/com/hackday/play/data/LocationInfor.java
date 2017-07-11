@@ -1,4 +1,4 @@
-package com.hackday.play.Utils;
+package com.hackday.play.data;
 
 import org.litepal.crud.DataSupport;
 

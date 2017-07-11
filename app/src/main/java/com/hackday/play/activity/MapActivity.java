@@ -1,4 +1,4 @@
-package com.hackday.play.View;
+package com.hackday.play.activity;
 
 import android.os.Handler;
 import android.os.Message;
@@ -11,9 +11,9 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.model.LatLng;
 import com.hackday.play.R;
-import com.hackday.play.Utils.LocationInfor;
-import com.hackday.play.Utils.MyActivityManager;
-import com.hackday.play.Utils.Utils;
+import com.hackday.play.data.LocationInfor;
+import com.hackday.play.utils.MyActivityManager;
+import com.hackday.play.utils.Utils;
 
 public class MapActivity extends AppCompatActivity {
 

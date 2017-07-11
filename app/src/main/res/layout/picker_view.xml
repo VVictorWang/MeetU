@@ -4,7 +4,7 @@
     android:layout_height="180dp"
     android:orientation="vertical">
 
-    <com.hackday.play.View.PickerView
+    <com.hackday.play.view.PickerView
         android:layout_width="match_parent"
         android:id="@+id/time_picker_view"
         android:layout_height="180dp" />

@@ -1,9 +1,10 @@
-package com.hackday.play.Adapters;
+package com.hackday.play.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,9 +15,18 @@ public class MyFragAdapter extends FragmentPagerAdapter {
     private List<Fragment> frags;
 
 
+    public MyFragAdapter(FragmentManager fm) {
+        super(fm);
+        frags = new ArrayList<>();
+    }
+
     public MyFragAdapter(FragmentManager fm, List<Fragment> frags) {
         super(fm);
         this.frags = frags;
+    }
+
+    public void addFragment(Fragment fragment) {
+        frags.add(fragment);
     }
 
     @Override

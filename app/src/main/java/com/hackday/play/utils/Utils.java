@@ -1,4 +1,4 @@
-package com.hackday.play.Utils;
+package com.hackday.play.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.baidu.location.BDLocation;
@@ -14,12 +13,12 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
-import com.hackday.play.Adapters.MyRecyAdapter;
+import com.hackday.play.adapters.MyRecyAdapter;
 import com.hackday.play.MyApplication;
 import com.hackday.play.R;
+import com.hackday.play.data.LocationInfor;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package com.hackday.play.Adapters;
+package com.hackday.play.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,10 +12,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.hackday.play.View.EditUmbrellaActivity;
+import com.hackday.play.activity.EditUmbrellaActivity;
 import com.hackday.play.MyApplication;
 import com.hackday.play.R;
-import com.hackday.play.Utils.LocationInfor;
+import com.hackday.play.data.LocationInfor;
 
 import java.util.ArrayList;
 import java.util.List;

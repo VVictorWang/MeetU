@@ -1,4 +1,4 @@
-package com.hackday.play;
+package com.hackday.play.service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -16,10 +16,11 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.hackday.play.Utils.GlobaData;
-import com.hackday.play.Utils.LocationInfor;
-import com.hackday.play.Utils.Utils;
-import com.hackday.play.View.MainActivity;
+import com.hackday.play.R;
+import com.hackday.play.data.GlobaData;
+import com.hackday.play.data.LocationInfor;
+import com.hackday.play.utils.Utils;
+import com.hackday.play.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;

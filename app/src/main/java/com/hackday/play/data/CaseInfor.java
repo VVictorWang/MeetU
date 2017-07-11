@@ -1,6 +1,4 @@
-package com.hackday.play.Utils;
-
-import android.app.ProgressDialog;
+package com.hackday.play.data;
 
 /**
  * Created by victor on 17-6-4.

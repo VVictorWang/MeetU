@@ -1,4 +1,4 @@
-package com.hackday.play.View.Fragments;
+package com.hackday.play.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,16 +6,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hackday.play.Adapters.MyRecyAdapter;
+import com.hackday.play.adapters.MyRecyAdapter;
 import com.hackday.play.MyApplication;
 import com.hackday.play.R;
-import com.hackday.play.Utils.LocationInfor;
-import com.hackday.play.Utils.Utils;
+import com.hackday.play.data.LocationInfor;
+import com.hackday.play.utils.Utils;
 
 import org.litepal.crud.DataSupport;
 

@@ -1,24 +1,24 @@
-    package com.hackday.play;
+    package com.hackday.play.activity;
 
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.hackday.play.Utils.MyActivityManager;
-import com.hackday.play.View.MainActivity;
+import com.hackday.play.R;
+import com.hackday.play.utils.MyActivityManager;
 
-    public class First extends AppCompatActivity {
+    public class FirstActivity extends AppCompatActivity {
     private int second = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
-        MyActivityManager.getInstance().pushActivity(First.this);
+        MyActivityManager.getInstance().pushActivity(FirstActivity.this);
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                Intent mainIntent = new Intent(First.this,MainActivity.class);
+                Intent mainIntent = new Intent(FirstActivity.this,MainActivity.class);
                 startActivity(mainIntent);
                 finish();
             }

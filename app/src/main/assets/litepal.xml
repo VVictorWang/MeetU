@@ -6,7 +6,7 @@
     <version value="1" />
 
     <list>
-        <mapping class="com.hackday.play.Utils.LocationInfor"/>
+        <mapping class="com.hackday.play.data.LocationInfor"/>
     </list>
 
 

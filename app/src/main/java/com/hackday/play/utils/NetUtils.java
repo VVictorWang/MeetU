@@ -1,7 +1,4 @@
-package com.hackday.play.Utils;
-
-import android.content.Context;
-import android.util.Log;
+package com.hackday.play.utils;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

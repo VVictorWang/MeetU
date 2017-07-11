@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/hall_back"
-    tools:context="com.hackday.play.View.EditProfileActivity">
+    tools:context="com.hackday.play.activity.EditProfileActivity">
 
     <RelativeLayout
         android:id="@+id/edit_profile_toolbar"

@@ -1,4 +1,4 @@
-package com.hackday.play.View;
+package com.hackday.play.view;
 
 import java.util.ArrayList;
 import java.util.List;

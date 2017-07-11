@@ -1,4 +1,4 @@
-package com.hackday.play.Utils;
+package com.hackday.play.utils;
 
 import android.app.Activity;
 

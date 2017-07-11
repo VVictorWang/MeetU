@@ -1,4 +1,4 @@
-package com.hackday.play.View;
+package com.hackday.play.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,10 +17,11 @@ import android.widget.TextView;
 
 import com.hackday.play.MyApplication;
 import com.hackday.play.R;
-import com.hackday.play.Utils.GlobaData;
-import com.hackday.play.Utils.LocationInfor;
-import com.hackday.play.Utils.MyActivityManager;
-import com.hackday.play.Utils.Utils;
+import com.hackday.play.data.GlobaData;
+import com.hackday.play.data.LocationInfor;
+import com.hackday.play.utils.MyActivityManager;
+import com.hackday.play.utils.Utils;
+import com.hackday.play.view.PickerView;
 
 import java.util.ArrayList;
 import java.util.List;

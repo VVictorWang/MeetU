@@ -2,14 +2,11 @@ package com.hackday.play;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
 
 import com.baidu.mapapi.SDKInitializer;
-import com.hackday.play.Utils.LocationInfor;
+import com.hackday.play.data.LocationInfor;
 
 import org.litepal.LitePal;
-import org.litepal.parser.LitePalConfig;
 
 /**
  * Created by victor on 17-6-3.

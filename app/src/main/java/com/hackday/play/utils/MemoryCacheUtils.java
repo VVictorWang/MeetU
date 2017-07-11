@@ -1,4 +1,4 @@
-package com.hackday.play.Utils;
+package com.hackday.play.utils;
 
 /**
  * Created by victor on 17-5-16.

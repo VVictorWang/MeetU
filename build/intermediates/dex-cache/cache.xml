@@ -3,30 +3,30 @@
 
     <item
         is-multidex="true"
-        jar="/home/victor/Ok/MeetU/app/libs/BaiduLBS_Android.jar"
+        jar="/home/victor/AndroidProject/MeetU/app/libs/BaiduLBS_Android.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="956bcbf7c2cc5827cc9ef339d7b8a9701c76ece4">
-        <dex dex="/home/victor/Ok/MeetU/app/build/intermediates/transforms/dex/debug/folders/1000/2/BaiduLBS_Android_6fa59f8549e0db445ae13eeea2b8d7cd6e4f059b/classes.dex" />
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/dex/debug/folders/1000/2/BaiduLBS_Android_40364682196eca1d856c777218e12242827ad9c8/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/victor/Ok/MeetU/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="/home/victor/AndroidProject/MeetU/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="5935d975b760a5b859d0386ff96d6712a4c7fb72">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_5d0e65a3094ab7e875cba967e34077aa55b2eb61/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/AndroidProject/MeetU/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="/home/victor/Ok/MeetU/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_bad82366007e1ba8dda95cd0d941062399a0aba9/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/victor/Ok/MeetU/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="88b7e037d4ddf171cd8be2d26116d78f7e61ff37">
-        <dex dex="/home/victor/Ok/MeetU/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_43aa978047cb539679bd81741b645998b40d637d/classes.dex" />
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_5638d4c179464389bee19cebd76affb7835c4b64/classes.dex" />
     </item>
 
 </items>

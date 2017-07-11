@@ -1,4 +1,4 @@
-package com.hackday.play.View;
+package com.hackday.play.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,10 +12,10 @@ import android.widget.RelativeLayout;
 
 import com.hackday.play.MyApplication;
 import com.hackday.play.R;
-import com.hackday.play.Utils.GlobaData;
-import com.hackday.play.Utils.LocationInfor;
-import com.hackday.play.Utils.MyActivityManager;
-import com.hackday.play.Utils.Utils;
+import com.hackday.play.data.GlobaData;
+import com.hackday.play.data.LocationInfor;
+import com.hackday.play.utils.MyActivityManager;
+import com.hackday.play.utils.Utils;
 
 public class EditProfileActivity extends AppCompatActivity {
 

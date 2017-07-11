@@ -1,4 +1,4 @@
-package com.hackday.play.View;
+package com.hackday.play.activity;
 
 import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -7,12 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.baidu.platform.comapi.map.B;
-import com.hackday.play.First;
 import com.hackday.play.R;
-import com.hackday.play.Utils.GlobaData;
-import com.hackday.play.Utils.MyActivityManager;
-import com.hackday.play.Utils.Utils;
+import com.hackday.play.data.GlobaData;
+import com.hackday.play.utils.MyActivityManager;
+import com.hackday.play.utils.Utils;
 
 public class FinishActivity extends AppCompatActivity {
     private View view;
