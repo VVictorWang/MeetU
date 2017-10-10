@@ -1,4 +1,4 @@
-package com.hackday.play.activity;
+package com.hackday.play.ui.activity;
 
 import android.os.Handler;
 import android.os.Message;

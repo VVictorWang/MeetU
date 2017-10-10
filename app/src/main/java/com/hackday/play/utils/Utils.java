@@ -13,9 +13,9 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
-import com.hackday.play.adapters.MyRecyAdapter;
 import com.hackday.play.MyApplication;
 import com.hackday.play.R;
+import com.hackday.play.ui.adapters.MyRecyAdapter;
 import com.hackday.play.data.LocationInfor;
 
 import java.text.DateFormat;
@@ -32,40 +32,41 @@ public class Utils {
     public static void getLocation(final LocationInfor locationInfor, final Handler handler) {
         LocationClient locationClient = new LocationClient(MyApplication.getContext());
         LocationClientOption option = new LocationClientOption();
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         //可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
-        option.setCoorType("bd09ll");
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         //可选，默认gcj02，设置返回的定位结果坐标系
+        option.setCoorType("bd09ll");
 
         int span = 1000;
-        option.setScanSpan(span);
         //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+        option.setScanSpan(span);
 
-        option.setIsNeedAddress(true);
         //可选，设置是否需要地址信息，默认不需要
+        option.setIsNeedAddress(true);
 
-        option.setOpenGps(true);
         //可选，默认false,设置是否使用gps
+        option.setOpenGps(true);
 
-        option.setLocationNotify(true);
         //可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
+        option.setLocationNotify(true);
 
-        option.setIsNeedLocationDescribe(true);
         //可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
+        option.setIsNeedLocationDescribe(true);
 
-        option.setIsNeedLocationPoiList(true);
         //可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
+        option.setIsNeedLocationPoiList(true);
 
-        option.setIgnoreKillProcess(false);
         //可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
+        option.setIgnoreKillProcess(false);
 
-        option.SetIgnoreCacheException(false);
         //可选，默认false，设置是否收集CRASH信息，默认收集
+        option.SetIgnoreCacheException(false);
 
-        option.setEnableSimulateGps(false);
         //可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
+        option.setEnableSimulateGps(false);
 
         locationClient.setLocOption(option);
+
         BDLocationListener listener = new BDLocationListener() {
             @Override
             public void onReceiveLocation(BDLocation location) {
@@ -100,7 +101,6 @@ public class Utils {
                 if (list != null) {
                     for (Poi p : list) {
                         String name = p.getName();
-
                     }
                     locationInfor.setSpecific_infor(list.get(1).getName());
                 }
@@ -117,18 +117,49 @@ public class Utils {
         locationClient.requestLocation();
     }
 
-    public static void finishActivity(Activity activity) {
-        MyActivityManager activityManage = MyActivityManager.getInstance();
-        activityManage.popActivity(activity);
-        activity.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+    public static void LocationHelper(BDLocationListener listener) {
+
+        LocationClient locationClient = new LocationClient(MyApplication.getContext());
+        LocationClientOption option = new LocationClientOption();
+        //可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+        //可选，默认gcj02，设置返回的定位结果坐标系
+        option.setCoorType("bd09ll");
+
+        int span = 1000;
+        //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+        option.setScanSpan(span);
+
+        //可选，设置是否需要地址信息，默认不需要
+        option.setIsNeedAddress(true);
+
+        //可选，默认false,设置是否使用gps
+        option.setOpenGps(true);
+
+        //可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
+        option.setLocationNotify(true);
+
+        //可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
+        option.setIsNeedLocationDescribe(true);
+
+        //可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
+        option.setIsNeedLocationPoiList(true);
+
+        //可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
+        option.setIgnoreKillProcess(false);
+
+        //可选，默认false，设置是否收集CRASH信息，默认收集
+        option.SetIgnoreCacheException(false);
+
+        //可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
+        option.setEnableSimulateGps(false);
+
+        locationClient.setLocOption(option);
+        locationClient.registerLocationListener(listener);
+        locationClient.start();
+        locationClient.requestLocation();
     }
 
-    public static void startActivity(Activity activity, Class<?> cls) {
-        Intent intent = new Intent();
-        intent.setClass(activity, cls);
-        activity.startActivity(intent);
-        activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-    }
 
     private static double rad(double d) {
         return d * Math.PI / 180.0;
@@ -150,14 +181,16 @@ public class Utils {
         return s;
     }
 
-    public static void sortByDistance(List<LocationInfor> locationInfors, MyRecyAdapter adapter, LocationInfor user) {
+    public static void sortByDistance(List<LocationInfor> locationInfors, MyRecyAdapter adapter,
+                                      LocationInfor user) {
         double x = user.getLatitude();
         double y = user.getLongtitude();
         LocationInfor[] infors = new LocationInfor[]{};
         infors = locationInfors.toArray(infors);
         for (int i = 0; i < locationInfors.size(); i++) {
             for (int j = i + 1; j < locationInfors.size(); j++) {
-                if (GetDistance(x, y, infors[i].getLatitude(), infors[i].getLongtitude()) < GetDistance(x, y, infors[j].getLatitude(), infors[j].getLongtitude())) {
+                if (GetDistance(x, y, infors[i].getLatitude(), infors[i].getLongtitude()) <
+                        GetDistance(x, y, infors[j].getLatitude(), infors[j].getLongtitude())) {
                     LocationInfor temp = infors[i];
                     infors[i] = infors[j];
                     infors[j] = temp;
@@ -251,98 +284,6 @@ public class Utils {
         recyAdapter.setLocationInforList(s);
     }
 
-    /**
-     * 设置SharedPreference 值
-     *
-     * @param context
-     * @param key
-     * @param value
-     */
-    public static final boolean putIntValue(Context context, String key,
-                                            int value) {
-        SharedPreferences.Editor editor = getSharedPreference(context).edit();
-        editor.putInt(key, value);
-        boolean result = editor.commit();
-        if (!result) {
-            return false;
-        }
-        return true;
-    }
 
-    /**
-     * 设置SharedPreference 值
-     *
-     * @param context
-     * @param key
-     * @param value
-     */
-    public static final boolean putValue(Context context, String key,
-                                         String value) {
-        value = value == null ? "" : value;
-        SharedPreferences.Editor editor = getSharedPreference(context).edit();
-        editor.putString(key, value);
-        boolean result = editor.commit();
-        if (!result) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * 移除SharedPreference
-     *
-     * @param context
-     * @param key
-     */
-    public static final void RemoveValue(Context context, String key) {
-        SharedPreferences.Editor editor = getSharedPreference(context).edit();
-        editor.remove(key);
-        boolean result = editor.commit();
-        if (!result) {
-            Log.e("移除Shared", "save " + key + " failed");
-        }
-    }
-
-    private static final SharedPreferences getSharedPreference(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context);
-    }
-
-    /**
-     * 获取SharedPreference 值
-     *
-     * @param context
-     * @param key
-     * @return
-     */
-    public static final String getValue(Context context, String key) {
-        return getSharedPreference(context).getString(key, "");
-    }
-
-    public static final Boolean getBooleanValue(Context context, String key) {
-        return getSharedPreference(context).getBoolean(key, false);
-    }
-
-    public static final void putBooleanValue(Context context, String key,
-                                             boolean bl) {
-        SharedPreferences.Editor edit = getSharedPreference(context).edit();
-        edit.putBoolean(key, bl);
-        edit.commit();
-    }
-
-    public static final int getIntValue(Context context, String key) {
-        return getSharedPreference(context).getInt(key, 0);
-    }
-
-    public static final long getLongValue(Context context, String key,
-                                          long default_data) {
-        return getSharedPreference(context).getLong(key, default_data);
-    }
-
-    public static final boolean putLongValue(Context context, String key,
-                                             Long value) {
-        SharedPreferences.Editor editor = getSharedPreference(context).edit();
-        editor.putLong(key, value);
-        return editor.commit();
-    }
 
 }

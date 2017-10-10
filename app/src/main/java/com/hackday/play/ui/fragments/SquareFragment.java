@@ -1,4 +1,4 @@
-package com.hackday.play.fragments;
+package com.hackday.play.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,10 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hackday.play.adapters.MyRecyAdapter;
 import com.hackday.play.MyApplication;
 import com.hackday.play.R;
 import com.hackday.play.data.LocationInfor;
+import com.hackday.play.ui.adapters.MyRecyAdapter;
 import com.hackday.play.utils.Utils;
 
 import org.litepal.crud.DataSupport;
@@ -33,7 +33,8 @@ public class SquareFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
+            Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_square, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.square_RecyclerView);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.square_SwipeRefreshLayout);

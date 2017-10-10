@@ -1,14 +1,14 @@
-    package com.hackday.play.activity;
+package com.hackday.play.ui.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 import com.hackday.play.R;
 import com.hackday.play.utils.MyActivityManager;
 
-    public class FirstActivity extends AppCompatActivity {
+public class FirstActivity extends AppCompatActivity {
     private int second = 3000;
 
     @Override
@@ -18,11 +18,12 @@ import com.hackday.play.utils.MyActivityManager;
         MyActivityManager.getInstance().pushActivity(FirstActivity.this);
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                Intent mainIntent = new Intent(FirstActivity.this,MainActivity.class);
+                Intent mainIntent = new Intent(FirstActivity.this, MainActivity.class);
                 startActivity(mainIntent);
                 finish();
             }
 
         }, second);
     }
+
 }

@@ -32,14 +32,14 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="jI2rqVzkv5I9EPD3CdzWe5D5gvS9SXGr" />
 
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".ui.activity.MainActivity">
 
         </activity>
-        <activity android:name=".activity.EditUmbrellaActivity" />
-        <activity android:name=".activity.EditProfileActivity" />
-        <activity android:name=".activity.MapActivity" />
-        <activity android:name=".activity.FinishActivity" />
-        <activity android:name=".activity.FirstActivity">
+        <activity android:name=".ui.activity.EditUmbrellaActivity" />
+        <activity android:name=".ui.activity.EditProfileActivity" />
+        <activity android:name=".ui.activity.MapActivity" />
+        <activity android:name=".ui.activity.FinishActivity" />
+        <activity android:name=".ui.activity.FirstActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

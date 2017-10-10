@@ -1,5 +1,7 @@
 package com.hackday.play.data;
 
+import com.hackday.play.utils.AppUtils;
+
 /**
  * Created by victor on 17-6-3.
  */
@@ -13,4 +15,8 @@ public interface GlobaData {
     String LOVE_LEVEL = "love_level";
     String LONGTITUDE = "longtitude";
     String LATITUDE = "latitude";
+
+    String PASSWORD = "temp";
+
+    public static final String PATH_DATA = AppUtils.getAppContext().getExternalCacheDir().getPath();
 }

@@ -1,4 +1,4 @@
-package com.hackday.play.adapters;
+package com.hackday.play.ui.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,10 +12,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.hackday.play.activity.EditUmbrellaActivity;
 import com.hackday.play.MyApplication;
 import com.hackday.play.R;
 import com.hackday.play.data.LocationInfor;
+import com.hackday.play.ui.activity.EditUmbrellaActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,11 +49,14 @@ public class MyRecyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         mViewHolder holder;
         if (i == CONTENT_TYPE)
-            return new mViewHolder(LayoutInflater.from(MyApplication.getContext()).inflate(R.layout.frag_square_item, viewGroup, false), i);
+            return new mViewHolder(LayoutInflater.from(MyApplication.getContext()).inflate(R
+                    .layout.frag_square_item, viewGroup, false), i);
         else if (i == EMPTY_TYPE) {
-            return new mViewHolder(LayoutInflater.from(MyApplication.getContext()).inflate(R.layout.item_empty, viewGroup, false), i);
+            return new mViewHolder(LayoutInflater.from(MyApplication.getContext()).inflate(R
+                    .layout.item_empty, viewGroup, false), i);
         } else if (i == FOOT_TYPE) {
-            return new FooterViewHolder(LayoutInflater.from(MyApplication.getContext()).inflate(R.layout.list_footer, viewGroup, false));
+            return new FooterViewHolder(LayoutInflater.from(MyApplication.getContext()).inflate(R
+                    .layout.list_footer, viewGroup, false));
         }
         return null;
     }
@@ -68,7 +71,7 @@ public class MyRecyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 LocationInfor locationInfor = locationInforList.get(i);
                 ((mViewHolder) mViewHolder).location.setText(locationInfor.getBuilding());
                 ((mViewHolder) mViewHolder).remain_time.setText(locationInfor.getTime());
-                ((mViewHolder)mViewHolder).title.setText(locationInfor.getDetail());
+                ((mViewHolder) mViewHolder).title.setText(locationInfor.getDetail());
                 ((mViewHolder) mViewHolder).cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -80,13 +83,16 @@ public class MyRecyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 });
                 switch (locationInfor.getSex()) {
                     case 0:
-                        ((mViewHolder) mViewHolder).cardView.setBackgroundColor(context.getResources().getColor(R.color.MessageSecret));
+                        ((mViewHolder) mViewHolder).cardView.setBackgroundColor(context
+                                .getResources().getColor(R.color.MessageSecret));
                         break;
                     case 1:
-                        ((mViewHolder) mViewHolder).cardView.setBackgroundColor(context.getResources().getColor(R.color.MessageBoy));
+                        ((mViewHolder) mViewHolder).cardView.setBackgroundColor(context
+                                .getResources().getColor(R.color.MessageBoy));
                         break;
                     case -1:
-                        ((mViewHolder) mViewHolder).cardView.setBackgroundColor(context.getResources().getColor(R.color.MessageGirl));
+                        ((mViewHolder) mViewHolder).cardView.setBackgroundColor(context
+                                .getResources().getColor(R.color.MessageGirl));
                         break;
                 }
 
@@ -104,7 +110,7 @@ public class MyRecyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public int getItemViewType(int position) {
         if (locationInforList.size() == 0)
             return EMPTY_TYPE;
-        else if (position  == getItemCount()) {
+        else if (position == getItemCount()) {
             return FOOT_TYPE;
         } else
             return CONTENT_TYPE;

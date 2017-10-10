@@ -1,9 +1,10 @@
-package com.hackday.play.activity;
+package com.hackday.play.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
@@ -12,8 +13,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -22,25 +21,28 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.hackday.play.adapters.MyFragAdapter;
 import com.hackday.play.MyApplication;
-import com.hackday.play.service.NotificitionService;
 import com.hackday.play.R;
-import com.hackday.play.utils.MyActivityManager;
-import com.hackday.play.fragments.MyFragment;
-import com.hackday.play.fragments.SquareFragment;
 import com.hackday.play.data.GlobaData;
 import com.hackday.play.data.LocationInfor;
+import com.hackday.play.service.NotificitionService;
+import com.hackday.play.ui.adapters.MyFragAdapter;
+import com.hackday.play.ui.base.BaseActivity;
+import com.hackday.play.ui.base.BasePresenter;
+import com.hackday.play.ui.fragments.MyFragment;
+import com.hackday.play.ui.fragments.SquareFragment;
+import com.hackday.play.utils.PrefUtils;
 import com.hackday.play.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+import static com.hackday.play.utils.PrefUtils.putValue;
 
-    //    private MapView mapView;
+public class MainActivity extends BaseActivity {
+
     private boolean isEdited;
-    private ImageView user_infor,sort;
+    private ImageView user_infor, sort;
     private DrawerLayout drawerLayout;
     private RelativeLayout drawer;
     private TabLayout tabLayout;
@@ -52,62 +54,64 @@ public class MainActivity extends AppCompatActivity {
     private View view_square, view_umbrella;
     private FloatingActionButton add;
     private ImageView avatar;
-    private List<Fragment> fragmentList=new ArrayList<>();
+    private List<Fragment> fragmentList = new ArrayList<>();
     private SquareFragment fragment;
     private TextView user_name, user_love_level;
     private LocationInfor infor = new LocationInfor();
     private RelativeLayout location_info;
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 0x123) {
-                Utils.putValue(MainActivity.this, GlobaData.LATITUDE, "" + infor.getLatitude());
-                Utils.putValue(MainActivity.this, GlobaData.LONGTITUDE, "" + infor.getLongtitude());
+                putValue(MainActivity.this, GlobaData.LATITUDE, "" + infor.getLatitude());
+                PrefUtils.putValue(MainActivity.this, GlobaData.LONGTITUDE, "" + infor
+                        .getLongtitude());
             }
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        MyActivityManager.getInstance().pushActivity(MainActivity.this);
-        isEdited = Utils.getBooleanValue(MainActivity.this, GlobaData.IS_EDITED);
+        isEdited = PrefUtils.getBooleanValue(MainActivity.this, GlobaData.IS_EDITED);
         if (!isEdited) {
-            View view=getLayoutInflater().inflate(R.layout.alert_dialog, null);
-            Button positive=(Button) view.findViewById(R.id.dialog_positive);
-            final AlertDialog dialog=new AlertDialog.Builder(this).setView(view).setCancelable(false).create();
+            View view = getLayoutInflater().inflate(R.layout.alert_dialog, null);
+            Button positive = (Button) view.findViewById(R.id.dialog_positive);
+            final AlertDialog dialog = new AlertDialog.Builder(this).setView(view).setCancelable
+                    (false).create();
             positive.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
-                    Intent intent=new Intent();
-                    intent.setClass(MainActivity.this,EditProfileActivity.class);
+                    Intent intent = new Intent();
+                    intent.setClass(MainActivity.this, EditProfileActivity.class);
                     MyApplication.setLocationInfor(new LocationInfor());
                     startActivity(intent);
                 }
             });
             dialog.show();
         }
-        InitView();
-        InitTab();
-        InitEvent();
-        InitData();
-        startService(new Intent(MainActivity.this,NotificitionService.class));
-        Utils.getLocation(infor,handler);
+        startService(new Intent(MainActivity.this, NotificitionService.class));
+        Utils.getLocation(infor, handler);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        InitData();
+    protected BasePresenter getPresnter() {
+        return null;
     }
 
-    private void InitData() {
-        user_name.setText(Utils.getValue(MainActivity.this, GlobaData.NAME));
-        user_love_level.setText("" + Utils.getIntValue(MainActivity.this, GlobaData.LOVE_LEVEL));
+    @Override
+    protected Activity getActivity() {
+        return MainActivity.this;
     }
 
-    private void InitView(){
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void initView() {
         user_infor = (ImageView) findViewById(R.id.user_infor);
         add = (FloatingActionButton) findViewById(R.id.add_new);
         avatar = (ImageView) findViewById(R.id.avatar);
@@ -130,10 +134,10 @@ public class MainActivity extends AppCompatActivity {
                 popWindow.showPopupWindow(sort);
             }
         });
-        viewPager=(ViewPager) findViewById(R.id.mViewPager);
-        fragment=new SquareFragment();
+        viewPager = (ViewPager) findViewById(R.id.mViewPager);
+        fragment = new SquareFragment();
         fragmentList.add(fragment);
-        MyFragment myFragment=new MyFragment();
+        MyFragment myFragment = new MyFragment();
         fragmentList.add(myFragment);
         myFragAdapter = new MyFragAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(myFragAdapter);
@@ -143,16 +147,13 @@ public class MainActivity extends AppCompatActivity {
         view_umbrella = getLayoutInflater().inflate(R.layout.view_umbrella, null);
         view_square.setBackground(getResources().getDrawable(R.drawable.iconhall));
         view_umbrella.setBackground(getResources().getDrawable(R.drawable.icontaskc));
+
+        InitTab();
+        InitData();
     }
 
-    private void InitTab() {
-        square = tabLayout.getTabAt(0);
-        umbrella = tabLayout.getTabAt(1);
-        square.setCustomView(view_square);
-        umbrella.setCustomView(view_umbrella);
-    }
-
-    private void InitEvent() {
+    @Override
+    protected void initEvent() {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -207,7 +208,25 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        InitData();
+    }
 
+    private void InitData() {
+        user_name.setText(PrefUtils.getValue(MainActivity.this, GlobaData.NAME));
+        user_love_level.setText("" + PrefUtils.getIntValue(MainActivity.this, GlobaData
+                .LOVE_LEVEL));
+    }
+
+
+    private void InitTab() {
+        square = tabLayout.getTabAt(0);
+        umbrella = tabLayout.getTabAt(1);
+        square.setCustomView(view_square);
+        umbrella.setCustomView(view_umbrella);
+    }
 
 
     private class popwindow extends PopupWindow {
@@ -272,6 +291,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
         }
+
         public void showPopupWindow(View parent) {
             if (!this.isShowing()) {
                 // 以下拉方式显示popupwindow

@@ -19,8 +19,9 @@ import android.util.Log;
 import com.hackday.play.R;
 import com.hackday.play.data.GlobaData;
 import com.hackday.play.data.LocationInfor;
+import com.hackday.play.ui.activity.MainActivity;
+import com.hackday.play.utils.PrefUtils;
 import com.hackday.play.utils.Utils;
-import com.hackday.play.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,9 +43,12 @@ public class NotificitionService extends Service implements SensorEventListener 
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 0x123) {
-                double previousx = Double.parseDouble(Utils.getValue(getApplicationContext(), GlobaData.LATITUDE));
-                double previousy = Double.parseDouble(Utils.getValue(getApplicationContext(), GlobaData.LONGTITUDE));
-                if (Utils.GetDistance(locationInfor.getLatitude(), locationInfor.getLongtitude(), previousx, previousy) < 10) {
+                double previousx = Double.parseDouble(PrefUtils.getValue(getApplicationContext(),
+                        GlobaData.LATITUDE));
+                double previousy = Double.parseDouble(PrefUtils.getValue(getApplicationContext(),
+                        GlobaData.LONGTITUDE));
+                if (Utils.GetDistance(locationInfor.getLatitude(), locationInfor.getLongtitude(),
+                        previousx, previousy) < 10) {
 
                     if (Status == AT_HOME) {
                         Status = OUTSIDE;
@@ -76,7 +80,9 @@ public class NotificitionService extends Service implements SensorEventListener 
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         Notification.Builder builder = new Notification.Builder(this.getApplicationContext());
         Intent nfIntent = new Intent(this, MainActivity.class);
-        builder.setContentIntent(PendingIntent.getActivity(this, 0, nfIntent, 0)).setContentText("Meet U").setSmallIcon(R.mipmap.ic_launcher_round).setWhen(System.currentTimeMillis());
+        builder.setContentIntent(PendingIntent.getActivity(this, 0, nfIntent, 0)).setContentText
+                ("Meet U").setSmallIcon(R.mipmap.ic_launcher_round).setWhen(System
+                .currentTimeMillis());
         Notification notification = builder.build();
         getSensor();
         startForeground(100, notification);
@@ -101,10 +107,12 @@ public class NotificitionService extends Service implements SensorEventListener 
         Sensor counter = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         Sensor detector = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
         if (counter != null) {
-            sensorManager.registerListener(NotificitionService.this, counter, SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(NotificitionService.this, counter, SensorManager
+                    .SENSOR_DELAY_NORMAL);
             Mode = 0;
         } else {
-            sensorManager.registerListener(NotificitionService.this, detector, SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(NotificitionService.this, detector, SensorManager
+                    .SENSOR_DELAY_NORMAL);
             Mode = 1;
         }
     }
@@ -123,22 +131,27 @@ public class NotificitionService extends Service implements SensorEventListener 
             }
         }
         if (stepList.size() > INTERVAL && timeList.size() > INTERVAL) {
-            StepPerSecond = (double) (stepList.get(stepList.size() - 1) - stepList.get(stepList.size() - 1 - INTERVAL)) / (timeList.get(timeList.size() - 1) - timeList.get(timeList.size() - 1 - INTERVAL)) * 1000;
+            StepPerSecond = (double) (stepList.get(stepList.size() - 1) - stepList.get(stepList
+                    .size() - 1 - INTERVAL)) / (timeList.get(timeList.size() - 1) - timeList.get
+                    (timeList.size() - 1 - INTERVAL)) * 1000;
             Log.d("Step/s", StepPerSecond + "");
             StepPerSecond = 0;
             int i = INTERVAL;
             while (i < timeList.size()) {
-                if ((timeList.get(timeList.size() - 1) - timeList.get(timeList.size() - 1 - i)) < 10000)
+                if ((timeList.get(timeList.size() - 1) - timeList.get(timeList.size() - 1 - i)) <
+                        10000)
                     i++;
                 else {
-                    StepPerSecond = (double) (stepList.get(stepList.size() - 1) - stepList.get(stepList.size() - 1 - i)) / (timeList.get(timeList.size() - 1) - timeList.get(timeList.size() - 1 - i)) * 1000;
+                    StepPerSecond = (double) (stepList.get(stepList.size() - 1) - stepList.get
+                            (stepList.size() - 1 - i)) / (timeList.get(timeList.size() - 1) -
+                            timeList.get(timeList.size() - 1 - i)) * 1000;
                     break;
                 }
             }
             if (StepPerSecond >= 0.6) {
                 Log.d("Status", "Walking" + StepPerSecond);
-                Message message=new Message();
-                message.what= 0x123;
+                Message message = new Message();
+                message.what = 0x123;
                 handler.sendMessage(message);
                 Utils.getLocation(locationInfor, handler);
             }

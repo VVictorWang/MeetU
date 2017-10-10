@@ -1,4 +1,4 @@
-package com.hackday.play.adapters;
+package com.hackday.play.ui.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@drawable/hall_back"
     android:layout_height="match_parent"
-    tools:context="com.hackday.play.activity.FinishActivity">
+    tools:context="com.hackday.play.ui.activity.FinishActivity">
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,9 +1,8 @@
-package com.hackday.play.activity;
+package com.hackday.play.ui.activity;
 
-import android.os.Bundle;
+import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,10 +13,12 @@ import com.hackday.play.MyApplication;
 import com.hackday.play.R;
 import com.hackday.play.data.GlobaData;
 import com.hackday.play.data.LocationInfor;
-import com.hackday.play.utils.MyActivityManager;
+import com.hackday.play.ui.base.BaseActivity;
+import com.hackday.play.ui.base.BasePresenter;
+import com.hackday.play.utils.PrefUtils;
 import com.hackday.play.utils.Utils;
 
-public class EditProfileActivity extends AppCompatActivity {
+public class EditProfileActivity extends BaseActivity {
 
     private android.widget.RelativeLayout editprofiletoolbar;
     private android.widget.RelativeLayout editidinfor;
@@ -40,16 +41,24 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         }
     };
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_profile);
-        MyActivityManager.getInstance().pushActivity(EditProfileActivity.this);
-       InitView();
-        InitEvent();
+    protected BasePresenter getPresnter() {
+        return null;
     }
 
-    private void InitView() {
+    @Override
+    protected Activity getActivity() {
+        return EditProfileActivity.this;
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_edit_profile;
+    }
+
+    @Override
+    protected void initView() {
         this.editlocationinfor = (RelativeLayout) findViewById(R.id.edit_location_infor);
         this.editqqinfor = (RelativeLayout) findViewById(R.id.edit_qq_infor);
         this.editphoneinfor = (RelativeLayout) findViewById(R.id.edit_phone_infor);
@@ -62,34 +71,11 @@ public class EditProfileActivity extends AppCompatActivity {
         this.editname = (EditText) findViewById(R.id.edit_name);
         back = (ImageView) findViewById(R.id.edit_back);
         confirm = (Button) findViewById(R.id.confirm_edit);
-        Utils.getLocation(locationInfor,handler);
+        Utils.getLocation(locationInfor, handler);
     }
 
-    private void InitEvent() {
-        editname.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editname.setCursorVisible(true);
-            }
-        });
-        editlocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editlocation.setCursorVisible(true);
-            }
-        });
-        editqq.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editqq.setCursorVisible(true);
-            }
-        });
-        editphone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editphone.setCursorVisible(true);
-            }
-        });
+    @Override
+    protected void initEvent() {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,14 +92,17 @@ public class EditProfileActivity extends AppCompatActivity {
                 locationInfor.setQq(qq);
                 locationInfor.setPhone(phone);
                 MyApplication.setLocationInfor(locationInfor);
-                Utils.putIntValue(EditProfileActivity.this, GlobaData.ID, 3);
-                Utils.putValue(EditProfileActivity.this, GlobaData.NAME, name);
-                Utils.putValue(EditProfileActivity.this, GlobaData.QQ, qq);
-                Utils.putValue(EditProfileActivity.this, GlobaData.PHONE, phone);
-                Utils.putBooleanValue(EditProfileActivity.this,GlobaData.IS_EDITED,true);
+
+                PrefUtils.putIntValue(EditProfileActivity.this, GlobaData.ID, 3);
+                PrefUtils.putValue(EditProfileActivity.this, GlobaData.NAME, name);
+                PrefUtils.putValue(EditProfileActivity.this, GlobaData.QQ, qq);
+                PrefUtils.putValue(EditProfileActivity.this, GlobaData.PHONE, phone);
+                PrefUtils.putBooleanValue(EditProfileActivity.this, GlobaData.IS_EDITED, true);
                 finish();
             }
         });
+
     }
+
 
 }

@@ -1,4 +1,4 @@
-package com.hackday.play.fragments;
+package com.hackday.play.ui.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.hackday.play.adapters.MyFragAdapter;
+import com.hackday.play.ui.adapters.MyFragAdapter;
 import com.hackday.play.R;
 
 import java.util.ArrayList;

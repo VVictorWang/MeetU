@@ -1,4 +1,4 @@
-package com.hackday.play.activity;
+package com.hackday.play.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,7 +19,10 @@ import com.hackday.play.MyApplication;
 import com.hackday.play.R;
 import com.hackday.play.data.GlobaData;
 import com.hackday.play.data.LocationInfor;
-import com.hackday.play.utils.MyActivityManager;
+import com.hackday.play.ui.base.BaseActivity;
+import com.hackday.play.ui.base.BasePresenter;
+import com.hackday.play.utils.ActivityManager;
+import com.hackday.play.utils.PrefUtils;
 import com.hackday.play.utils.Utils;
 import com.hackday.play.view.PickerView;
 
@@ -30,7 +33,7 @@ import java.util.List;
  * Created by wuhanson on 2017/6/3.
  */
 
-public class EditUmbrellaActivity extends Activity {
+public class EditUmbrellaActivity extends BaseActivity {
     private LocationInfor locationInfor;
     private EditText editText;
     private TextView textView, time, where;
@@ -52,15 +55,25 @@ public class EditUmbrellaActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add);
-        MyActivityManager.getInstance().pushActivity(EditUmbrellaActivity.this);
-InitView();
-
-        init();
-        InitEvent();
     }
 
-    private void InitView() {
+    @Override
+    protected BasePresenter getPresnter() {
+        return null;
+    }
+
+    @Override
+    protected Activity getActivity() {
+        return EditUmbrellaActivity.this;
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_add;
+    }
+
+    @Override
+    protected void initView() {
         editText = (EditText) findViewById(R.id.activity_add_EditText);
         textView = (TextView) findViewById(R.id.activity_add_TextView);
         button = (Button) findViewById(R.id.activity_add_Button);
@@ -78,8 +91,49 @@ InitView();
         buttonLayout = (LinearLayout) findViewById(R.id.activity_add_ButtonLayout);
         cancelButton = (Button) findViewById(R.id.activity_add_Button_Cancel);
         meetButton = (Button) findViewById(R.id.activity_add_Button_Meet);
-
+        init();
     }
+
+    @Override
+    protected void initEvent() {
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<String> data = new ArrayList<String>();
+                data.add("5分钟");
+                data.add("10分钟");
+                data.add("15分钟");
+                data.add("20分钟");
+                data.add("30分钟");
+                data.add("1小时");
+                data.add("2小时");
+                View view = getLayoutInflater().inflate(R.layout.picker_view, null);
+
+                PickerView pickerView = (PickerView) view.findViewById(R.id.time_picker_view);
+                pickerView.setData(data);
+
+                final AlertDialog builder = new AlertDialog.Builder(EditUmbrellaActivity.this)
+                        .create();
+                builder.setView(view);
+                builder.show();
+                pickerView.setOnSelectListener(new PickerView.onSelectListener() {
+                    @Override
+                    public void onSelect(String text) {
+                        time.setText(text);
+                        builder.dismiss();
+                    }
+                });
+            }
+        });
+        meetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EditUmbrellaActivity.this, FinishActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
 
     private void init() {
         locationInfor = MyApplication.getLocationInfor();
@@ -106,7 +160,8 @@ InitView();
                             addgirl.setImageResource(R.drawable.addgirl);
                             addsecret.setImageResource(R.drawable.addsecret);
                             sex = 1;
-                            backgroung.setBackground(getResources().getDrawable(R.drawable.add_back));
+                            backgroung.setBackground(getResources().getDrawable(R.drawable
+                                    .add_back));
                             titleImg.setImageResource(R.drawable.add_banner_boy);
                             break;
                         }
@@ -115,7 +170,8 @@ InitView();
                             addgirl.setImageResource(R.drawable.addgirlc);
                             addsecret.setImageResource(R.drawable.addsecret);
                             sex = -1;
-                            backgroung.setBackground(getResources().getDrawable(R.drawable.add_back_girl));
+                            backgroung.setBackground(getResources().getDrawable(R.drawable
+                                    .add_back_girl));
                             titleImg.setImageResource(R.drawable.add_banner_girl);
                             break;
                         }
@@ -124,7 +180,8 @@ InitView();
                             addgirl.setImageResource(R.drawable.addgirl);
                             addsecret.setImageResource(R.drawable.addsecretc);
                             sex = 0;
-                            backgroung.setBackground(getResources().getDrawable(R.drawable.add_back_secret));
+                            backgroung.setBackground(getResources().getDrawable(R.drawable
+                                    .add_back_secret));
                             titleImg.setImageResource(R.drawable.add_banner_secret);
                             break;
                         }
@@ -148,14 +205,15 @@ InitView();
                     String text = editText.getText().toString();
                     LocationInfor newLocationInfor = new LocationInfor();
                     newLocationInfor.setDetail(text);
-                    newLocationInfor.setName(Utils.getValue(EditUmbrellaActivity.this, GlobaData.NAME));
+                    newLocationInfor.setName(PrefUtils.getValue(EditUmbrellaActivity.this, GlobaData
+                            .NAME));
                     newLocationInfor.setTime(time.getText().toString());
                     newLocationInfor.setSex(sex);
                     newLocationInfor.setLatitude(locationInfor.getLatitude());
                     newLocationInfor.setLongtitude(locationInfor.getLongtitude());
                     newLocationInfor.setStatus(LocationInfor.NEED_ED);
                     newLocationInfor.save();
-                    Utils.finishActivity(EditUmbrellaActivity.this);
+                    ActivityManager.finishActivity(EditUmbrellaActivity.this);
                 }
             });
         } else {//浏览模式
@@ -171,7 +229,8 @@ InitView();
                     finish();
                 }
             });
-            if (locationInfor.getId() == MyApplication.getId()) {
+//            if (locationInfor.getId() == MyApplication.getId()) {
+            if (locationInfor.getId() == 1) {
                 button.setVisibility(View.GONE);
                 switch (locationInfor.getStatus()) {
                     case 1:
@@ -231,6 +290,7 @@ InitView();
         }
     }
 
+
     @Override
     public void onBackPressed() {
         if (mode == 0) showAlertDialog();
@@ -239,8 +299,10 @@ InitView();
 
     private void showAlertDialog() {
         View view = getLayoutInflater().inflate(R.layout.alert_dialog2, null);
-        Button positive = (Button) view.findViewById(R.id.alert_dialog_positive), negative = (Button) view.findViewById(R.id.alert_dialog_negative);
-        final AlertDialog dialog = new AlertDialog.Builder(this).setView(view).setCancelable(true).create();
+        Button positive = (Button) view.findViewById(R.id.alert_dialog_positive), negative =
+                (Button) view.findViewById(R.id.alert_dialog_negative);
+        final AlertDialog dialog = new AlertDialog.Builder(this).setView(view).setCancelable
+                (true).create();
         positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -258,10 +320,12 @@ InitView();
 
     private void showAlertDialog2() {
         View view = getLayoutInflater().inflate(R.layout.alert_dialog2, null);
-        Button positive = (Button) view.findViewById(R.id.alert_dialog_positive), negative = (Button) view.findViewById(R.id.alert_dialog_negative);
+        Button positive = (Button) view.findViewById(R.id.alert_dialog_positive), negative =
+                (Button) view.findViewById(R.id.alert_dialog_negative);
         TextView textView = (TextView) view.findViewById(R.id.alert_dialog_text);
         textView.setText("真的要删除吗？");
-        final AlertDialog dialog = new AlertDialog.Builder(this).setView(view).setCancelable(true).create();
+        final AlertDialog dialog = new AlertDialog.Builder(this).setView(view).setCancelable
+                (true).create();
         positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -277,42 +341,5 @@ InitView();
         dialog.show();
     }
 
-    private void InitEvent() {
-        time.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<String> data = new ArrayList<String>();
-                data.add("5分钟");
-                data.add("10分钟");
-                data.add("15分钟");
-                data.add("20分钟");
-                data.add("30分钟");
-                data.add("1小时");
-                data.add("2小时");
-                View view = getLayoutInflater().inflate(R.layout.picker_view, null);
-
-                PickerView pickerView = (PickerView) view.findViewById(R.id.time_picker_view);
-                pickerView.setData(data);
-
-                final AlertDialog builder = new AlertDialog.Builder(EditUmbrellaActivity.this).create();
-                builder.setView(view);
-                builder.show();
-                pickerView.setOnSelectListener(new PickerView.onSelectListener() {
-                    @Override
-                    public void onSelect(String text) {
-                        time.setText(text);
-                        builder.dismiss();
-                    }
-                });
-            }
-        });
-        meetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(EditUmbrellaActivity.this, FinishActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
 }
 
