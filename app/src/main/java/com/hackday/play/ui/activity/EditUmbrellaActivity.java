@@ -3,8 +3,6 @@ package com.hackday.play.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -15,51 +13,76 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.hackday.play.MyApplication;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.Poi;
 import com.hackday.play.R;
-import com.hackday.play.data.GlobaData;
-import com.hackday.play.data.LocationInfor;
+import com.hackday.play.api.UserApi;
+import com.hackday.play.data.NeedInfo;
 import com.hackday.play.ui.base.BaseActivity;
 import com.hackday.play.ui.base.BasePresenter;
+import com.hackday.play.ui.contract.EditUmbrellaContract;
+import com.hackday.play.ui.presenter.EditUmbrellaPresenter;
 import com.hackday.play.utils.ActivityManager;
-import com.hackday.play.utils.PrefUtils;
 import com.hackday.play.utils.Utils;
 import com.hackday.play.view.PickerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 /**
  * Created by wuhanson on 2017/6/3.
  */
 
-public class EditUmbrellaActivity extends BaseActivity {
-    private LocationInfor locationInfor;
+public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaContract.View {
     private EditText editText;
     private TextView textView, time, where;
     private Button button, cancelButton, meetButton;
     private RelativeLayout relativeLayout;
     private ImageView addboy, addgirl, addsecret, clock, titleImg, back;
     private LinearLayout backgroung, helperLayout, buttonLayout;
-    private String selectedTime;
-    private int sex = 0, mode = 0;
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == 0x123) {
-                where.setText(locationInfor.getSpecific_infor());
-            }
-        }
-    };
+
+    private EditUmbrellaContract.Presenter mPresenter;
+
+    private String sex = "男";
+    private int mode = 0;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        mPresenter = new EditUmbrellaPresenter(this);
+        if (getIntent() != null) {
+            mode = getIntent().getIntExtra("Mode", 0);
+        }
         super.onCreate(savedInstanceState);
+    }
+
+    private void getLocation() {
+        BDLocationListener listener = new BDLocationListener() {
+            @Override
+            public void onReceiveLocation(BDLocation bdLocation) {
+                List<Poi> list = bdLocation.getPoiList();    // POI数据
+                if (list != null) {
+                    where.setText(list.get(1).getName());
+                }
+            }
+
+            @Override
+            public void onConnectHotSpotMessage(String s, int i) {
+
+            }
+        };
+        Utils.LocationHelper(listener);
     }
 
     @Override
     protected BasePresenter getPresnter() {
-        return null;
+        return mPresenter;
     }
 
     @Override
@@ -91,12 +114,12 @@ public class EditUmbrellaActivity extends BaseActivity {
         buttonLayout = (LinearLayout) findViewById(R.id.activity_add_ButtonLayout);
         cancelButton = (Button) findViewById(R.id.activity_add_Button_Cancel);
         meetButton = (Button) findViewById(R.id.activity_add_Button_Meet);
-        init();
+        getLocation();
     }
 
     @Override
     protected void initEvent() {
-        time.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener timeListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 List<String> data = new ArrayList<String>();
@@ -108,7 +131,6 @@ public class EditUmbrellaActivity extends BaseActivity {
                 data.add("1小时");
                 data.add("2小时");
                 View view = getLayoutInflater().inflate(R.layout.picker_view, null);
-
                 PickerView pickerView = (PickerView) view.findViewById(R.id.time_picker_view);
                 pickerView.setData(data);
 
@@ -124,180 +146,20 @@ public class EditUmbrellaActivity extends BaseActivity {
                     }
                 });
             }
-        });
-        meetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(EditUmbrellaActivity.this, FinishActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
+        };
+        time.setOnClickListener(timeListener);
+        clock.setOnClickListener(timeListener);
 
-
-    private void init() {
-        locationInfor = MyApplication.getLocationInfor();
-        Utils.getLocation(locationInfor, handler);
-        mode = getIntent().getIntExtra("Mode", 0);
-
-        if (mode == 0) {//编辑、发布模式
-            textView.setVisibility(View.GONE);
-            helperLayout.setVisibility(View.GONE);
-            button.setText("点击求帮助OvO");
-            buttonLayout.setVisibility(View.GONE);
-            back.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showAlertDialog();
-                }
-            });
-            View.OnClickListener listener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    switch (v.getId()) {
-                        case R.id.center_boy_img: {
-                            addboy.setImageResource(R.drawable.addboyc);
-                            addgirl.setImageResource(R.drawable.addgirl);
-                            addsecret.setImageResource(R.drawable.addsecret);
-                            sex = 1;
-                            backgroung.setBackground(getResources().getDrawable(R.drawable
-                                    .add_back));
-                            titleImg.setImageResource(R.drawable.add_banner_boy);
-                            break;
-                        }
-                        case R.id.activity_add_addgirl: {
-                            addboy.setImageResource(R.drawable.addboy);
-                            addgirl.setImageResource(R.drawable.addgirlc);
-                            addsecret.setImageResource(R.drawable.addsecret);
-                            sex = -1;
-                            backgroung.setBackground(getResources().getDrawable(R.drawable
-                                    .add_back_girl));
-                            titleImg.setImageResource(R.drawable.add_banner_girl);
-                            break;
-                        }
-                        case R.id.activity_add_addsecret: {
-                            addboy.setImageResource(R.drawable.addboy);
-                            addgirl.setImageResource(R.drawable.addgirl);
-                            addsecret.setImageResource(R.drawable.addsecretc);
-                            sex = 0;
-                            backgroung.setBackground(getResources().getDrawable(R.drawable
-                                    .add_back_secret));
-                            titleImg.setImageResource(R.drawable.add_banner_secret);
-                            break;
-                        }
-                    }
-                }
-            };
-            addsecret.setOnClickListener(listener);
-            addboy.setOnClickListener(listener);
-            addgirl.setOnClickListener(listener);
-            View.OnClickListener listener1 = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    selectedTime = "";
-                }
-            };
-            time.setOnClickListener(listener1);
-            clock.setOnClickListener(listener1);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String text = editText.getText().toString();
-                    LocationInfor newLocationInfor = new LocationInfor();
-                    newLocationInfor.setDetail(text);
-                    newLocationInfor.setName(PrefUtils.getValue(EditUmbrellaActivity.this, GlobaData
-                            .NAME));
-                    newLocationInfor.setTime(time.getText().toString());
-                    newLocationInfor.setSex(sex);
-                    newLocationInfor.setLatitude(locationInfor.getLatitude());
-                    newLocationInfor.setLongtitude(locationInfor.getLongtitude());
-                    newLocationInfor.setStatus(LocationInfor.NEED_ED);
-                    newLocationInfor.save();
-                    ActivityManager.finishActivity(EditUmbrellaActivity.this);
-                }
-            });
-        } else {//浏览模式
-            if (locationInfor == null) finish();
-            clock.setClickable(false);
-//            time.setClickable(false);
-            time.setEnabled(false);
-            editText.setVisibility(View.GONE);
-            relativeLayout.setVisibility(View.GONE);
-            back.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-//            if (locationInfor.getId() == MyApplication.getId()) {
-            if (locationInfor.getId() == 1) {
-                button.setVisibility(View.GONE);
-                switch (locationInfor.getStatus()) {
-                    case 1:
-                        buttonLayout.setVisibility(View.GONE);
-                        break;
-                    case 2:
-                        meetButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent();
-                            }
-                        });
-                        cancelButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                showAlertDialog2();
-                            }
-                        });
-                        break;
-
-                    case 3:
-                        meetButton.setText("修改");
-                        meetButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                            }
-                        });
-                        cancelButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                showAlertDialog2();
-                            }
-                        });
-                        break;
-
-                }
-            } else {
-                switch (locationInfor.getSex()) {
-                    case 1:
-                        button.setText("帮助他");
-                        break;
-                    case -1:
-                        button.setText("帮助她");
-                        break;
-                    case 0:
-                        button.setText("帮助他/她");
-                        break;
-                }
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
-            }
-        }
     }
 
 
     @Override
     public void onBackPressed() {
-        if (mode == 0) showAlertDialog();
+        if (mode == 0) showCacelDialog();
         else super.onBackPressed();
     }
 
-    private void showAlertDialog() {
+    private void showCacelDialog() {
         View view = getLayoutInflater().inflate(R.layout.alert_dialog2, null);
         Button positive = (Button) view.findViewById(R.id.alert_dialog_positive), negative =
                 (Button) view.findViewById(R.id.alert_dialog_negative);
@@ -318,7 +180,7 @@ public class EditUmbrellaActivity extends BaseActivity {
         dialog.show();
     }
 
-    private void showAlertDialog2() {
+    private void showDeleteDialog() {
         View view = getLayoutInflater().inflate(R.layout.alert_dialog2, null);
         Button positive = (Button) view.findViewById(R.id.alert_dialog_positive), negative =
                 (Button) view.findViewById(R.id.alert_dialog_negative);
@@ -341,5 +203,206 @@ public class EditUmbrellaActivity extends BaseActivity {
         dialog.show();
     }
 
+    @Override
+    public void setPresenter(EditUmbrellaContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public void showMyToast(String description) {
+        showToast(description);
+    }
+
+    @Override
+    public int getMode() {
+        return mode;
+    }
+
+    @Override
+    public String getCreator() {
+        return getIntent().getStringExtra("phone");
+    }
+
+    @Override
+    public String getNeedID() {
+        return getIntent().getStringExtra("id");
+    }
+
+    @Override
+    public void showOtherView(NeedInfo needInfo) {
+        switch (needInfo.getSex()) {
+            case "男":
+                button.setText("帮助他");
+                break;
+            case "女":
+                button.setText("帮助她");
+                break;
+            case "秘密":
+                button.setText("帮助他/她");
+                break;
+        }
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.help();
+            }
+        });
+    }
+
+    @Override
+    public void showFinishedView() {
+        buttonLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showRunningView() {
+        meetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), FinishActivity.class);
+                intent.putExtra("id", getNeedID());
+                ActivityManager.startActivity(getActivity(), intent);
+            }
+        });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDeleteDialog();
+            }
+        });
+    }
+
+    @Override
+    public void showWaitingView() {
+        meetButton.setText("修改");
+        meetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEditView();
+            }
+        });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDeleteDialog();
+            }
+        });
+    }
+
+    @Override
+    public void showEditView() {
+        textView.setVisibility(View.GONE);
+        helperLayout.setVisibility(View.GONE);
+        button.setText("点击求帮助OvO");
+        buttonLayout.setVisibility(View.GONE);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCacelDialog();
+            }
+        });
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.center_boy_img: {
+                        addboy.setImageResource(R.drawable.addboyc);
+                        addgirl.setImageResource(R.drawable.addgirl);
+                        addsecret.setImageResource(R.drawable.addsecret);
+                        sex = "男";
+                        backgroung.setBackground(getResources().getDrawable(R.drawable
+                                .add_back));
+                        titleImg.setImageResource(R.drawable.add_banner_boy);
+                        break;
+                    }
+                    case R.id.activity_add_addgirl: {
+                        addboy.setImageResource(R.drawable.addboy);
+                        addgirl.setImageResource(R.drawable.addgirlc);
+                        addsecret.setImageResource(R.drawable.addsecret);
+                        sex = "女";
+                        backgroung.setBackground(getResources().getDrawable(R.drawable
+                                .add_back_girl));
+                        titleImg.setImageResource(R.drawable.add_banner_girl);
+                        break;
+                    }
+                    case R.id.activity_add_addsecret: {
+                        addboy.setImageResource(R.drawable.addboy);
+                        addgirl.setImageResource(R.drawable.addgirl);
+                        addsecret.setImageResource(R.drawable.addsecretc);
+                        sex = "秘密";
+                        backgroung.setBackground(getResources().getDrawable(R.drawable
+                                .add_back_secret));
+                        titleImg.setImageResource(R.drawable.add_banner_secret);
+                        break;
+                    }
+                }
+            }
+        };
+        addsecret.setOnClickListener(listener);
+        addboy.setOnClickListener(listener);
+        addgirl.setOnClickListener(listener);
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = editText.getText().toString();
+                BDLocationListener listener2 = new BDLocationListener() {
+                    @Override
+                    public void onReceiveLocation(BDLocation bdLocation) {
+                        String loca = "";
+                        List<Poi> list = bdLocation.getPoiList();    // POI数据
+                        if (list != null) {
+                            loca = list.get(1).getName();
+                        }
+                        Observable<NeedInfo> observable = UserApi.getInstance().addNeed(Utils
+                                        .getPhone(),
+                                text, 10, sex, (float) bdLocation.getLongitude(), (float)
+                                        bdLocation.getLatitude(), loca, "东一食堂", Utils.getToken());
+                        observable.observeOn(AndroidSchedulers.mainThread())
+                                .subscribeOn(Schedulers.io())
+                                .subscribe(new Observer<NeedInfo>() {
+                                    @Override
+                                    public void onCompleted() {
+                                        showToast("添加成功");
+                                        ActivityManager.finishActivity(EditUmbrellaActivity.this);
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        showToast("添加失败");
+                                    }
+
+                                    @Override
+                                    public void onNext(NeedInfo needInfo) {
+
+                                    }
+                                });
+                    }
+
+                    @Override
+                    public void onConnectHotSpotMessage(String s, int i) {
+
+                    }
+                };
+                Utils.LocationHelper(listener2);
+            }
+        });
+    }
+
+    @Override
+    public void showBrowseView() {
+        clock.setClickable(false);
+        time.setEnabled(false);
+        editText.setVisibility(View.GONE);
+        relativeLayout.setVisibility(View.GONE);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        button.setVisibility(View.GONE);
+    }
 }
 

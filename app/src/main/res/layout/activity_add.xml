@@ -131,17 +131,18 @@
 
     <FrameLayout
         android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
         android:layout_height="wrap_content">
 
         <Button
             android:id="@+id/activity_add_Button"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="184dp"
-            android:layout_height="48dp"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/button_middle"
+            android:background="@drawable/button_background"
             android:text="点击求伞OvO"
+            android:textColor="@color/TabSelected"
             android:visibility="visible" />
 
         <LinearLayout
@@ -157,7 +158,6 @@
                 android:layout_width="154dp"
                 android:layout_height="68dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
                 android:background="@drawable/button_middle"
                 android:text="碰面啦"
                 android:textColor="@color/TabSelected" />
@@ -168,7 +168,6 @@
                 android:layout_width="94dp"
                 android:layout_height="58dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
                 android:background="@drawable/addunder"
                 android:text="放弃"
                 android:textColor="@color/MessageBoy" />

@@ -3,9 +3,13 @@ package com.hackday.play;
 import android.app.Application;
 import android.content.Context;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
 import com.baidu.mapapi.SDKInitializer;
-import com.hackday.play.data.LocationInfor;
+import com.hackday.play.data.GlobaData;
 import com.hackday.play.utils.AppUtils;
+import com.hackday.play.utils.PrefUtils;
+import com.hackday.play.utils.Utils;
 
 import org.litepal.LitePal;
 
@@ -15,20 +19,9 @@ import org.litepal.LitePal;
 
 public class MyApplication extends Application {
     private static Context context;
-    private static LocationInfor locationInfor;
 
     public static void setContext(Context context) {
         MyApplication.context = context;
-    }
-
-
-    public static void setLocationInfor(LocationInfor locationInfor) {
-        MyApplication.locationInfor = locationInfor;
-    }
-
-
-    public static LocationInfor getLocationInfor() {
-        return locationInfor;
     }
 
 
@@ -38,8 +31,25 @@ public class MyApplication extends Application {
         context = getApplicationContext();
         AppUtils.init(this);
         SDKInitializer.initialize(this);
-        locationInfor = new LocationInfor();
         LitePal.initialize(context);
+        getUserLocation();
+    }
+
+    private void getUserLocation() {
+        BDLocationListener listener = new BDLocationListener() {
+            @Override
+            public void onReceiveLocation(BDLocation bdLocation) {
+                PrefUtils.putFloatValue(context, GlobaData.LATITUDE, (float) bdLocation
+                        .getLatitude());
+                PrefUtils.putFloatValue(context, GlobaData.LONGTITUDE, (float) bdLocation
+                        .getLongitude());
+            }
+
+            @Override
+            public void onConnectHotSpotMessage(String s, int i) {
+            }
+        };
+        Utils.LocationHelper(listener);
     }
 
     public static Context getContext() {

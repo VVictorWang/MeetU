@@ -12,9 +12,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.hackday.play.MyApplication;
 import com.hackday.play.R;
-import com.hackday.play.data.LocationInfor;
+import com.hackday.play.data.NeedInfo;
 import com.hackday.play.ui.activity.EditUmbrellaActivity;
 
 import java.util.ArrayList;
@@ -25,38 +24,37 @@ import java.util.List;
  */
 
 public class MyRecyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<LocationInfor> locationInforList = new ArrayList<>();
+    private List<NeedInfo> mNeedInfos;
 
-    private int CONTENT_TYPE = 0;
-    private int FOOT_TYPE = 1;
-    private int EMPTY_TYPE = 2;
+    private static int CONTENT_TYPE = 0;
+    private static int FOOT_TYPE = 1;
+    private static int EMPTY_TYPE = 2;
     private ProgressBar pbLoading;
     private TextView tvLoadMore;
     private Context context;
 
-    public MyRecyAdapter(List<LocationInfor> locationInforList, Context context) {
-        if (locationInforList != null)
-            this.locationInforList = locationInforList;
+    public MyRecyAdapter(Context context) {
+        mNeedInfos = new ArrayList<>();
         this.context = context;
     }
 
-    public void setLocationInforList(List<LocationInfor> locationInforList) {
-        this.locationInforList = locationInforList;
+    public void setLocationInforList(List<NeedInfo> needInfos) {
+        mNeedInfos.clear();
+        mNeedInfos.addAll(needInfos);
         notifyDataSetChanged();
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        mViewHolder holder;
         if (i == CONTENT_TYPE)
-            return new mViewHolder(LayoutInflater.from(MyApplication.getContext()).inflate(R
-                    .layout.frag_square_item, viewGroup, false), i);
+            return new MyViewHolder(LayoutInflater.from(context).inflate(R
+                    .layout.frag_square_item, null), i);
         else if (i == EMPTY_TYPE) {
-            return new mViewHolder(LayoutInflater.from(MyApplication.getContext()).inflate(R
-                    .layout.item_empty, viewGroup, false), i);
+            return new MyViewHolder(LayoutInflater.from(context).inflate(R
+                    .layout.item_empty, null), i);
         } else if (i == FOOT_TYPE) {
-            return new FooterViewHolder(LayoutInflater.from(MyApplication.getContext()).inflate(R
-                    .layout.list_footer, viewGroup, false));
+            return new FooterViewHolder(LayoutInflater.from(context).inflate(R
+                    .layout.list_footer, null));
         }
         return null;
     }
@@ -67,39 +65,43 @@ public class MyRecyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         Log.d(" ", "" + i);
         int type = getItemViewType(i);
         if (type == CONTENT_TYPE) {
-            if (locationInforList.size() != 0) {
-                LocationInfor locationInfor = locationInforList.get(i);
-                ((mViewHolder) mViewHolder).location.setText(locationInfor.getBuilding());
-                ((mViewHolder) mViewHolder).remain_time.setText(locationInfor.getTime());
-                ((mViewHolder) mViewHolder).title.setText(locationInfor.getDetail());
-                ((mViewHolder) mViewHolder).cardView.setOnClickListener(new View.OnClickListener() {
+            if (mNeedInfos.size() != 0) {
+                NeedInfo need = mNeedInfos.get(i);
+                ((MyViewHolder) mViewHolder).location.setText(need.getLocation());
+                ((MyViewHolder) mViewHolder).remain_time.setText(need.getContinue_time());
+                ((MyViewHolder) mViewHolder).title.setText(need.getDesc());
+                ((MyViewHolder) mViewHolder).cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent();
                         intent.setClass(context, EditUmbrellaActivity.class);
+                        intent.putExtra("phone", need.getCreator_phone());
+                        intent.putExtra("id", need.get_id());
                         intent.putExtra("Mode", 1);
                         context.startActivity(intent);
                     }
                 });
-                switch (locationInfor.getSex()) {
-                    case 0:
-                        ((mViewHolder) mViewHolder).cardView.setBackgroundColor(context
+                switch (need.getSex()) {
+                    case "秘密":
+                        ((MyViewHolder) mViewHolder).cardView.setBackgroundColor(context
                                 .getResources().getColor(R.color.MessageSecret));
                         break;
-                    case 1:
-                        ((mViewHolder) mViewHolder).cardView.setBackgroundColor(context
+                    case "男":
+                        ((MyViewHolder) mViewHolder).cardView.setBackgroundColor(context
                                 .getResources().getColor(R.color.MessageBoy));
                         break;
-                    case -1:
-                        ((mViewHolder) mViewHolder).cardView.setBackgroundColor(context
+                    case "女":
+                        ((MyViewHolder) mViewHolder).cardView.setBackgroundColor(context
                                 .getResources().getColor(R.color.MessageGirl));
+                        break;
+                    default:
                         break;
                 }
 
             }
 
         } else if (type == EMPTY_TYPE) {
-            ((mViewHolder) mViewHolder).title.setText("暂时没有内容哦");
+            ((MyViewHolder) mViewHolder).title.setText("暂时没有内容哦");
         } else if (type == FOOT_TYPE) {
             pbLoading = ((FooterViewHolder) mViewHolder).pbLoading;
             tvLoadMore = ((FooterViewHolder) mViewHolder).tvLoadMore;
@@ -108,7 +110,7 @@ public class MyRecyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemViewType(int position) {
-        if (locationInforList.size() == 0)
+        if (mNeedInfos.size() == 0)
             return EMPTY_TYPE;
         else if (position == getItemCount()) {
             return FOOT_TYPE;
@@ -118,8 +120,8 @@ public class MyRecyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        if (locationInforList.size() != 0)
-            return locationInforList.size();
+        if (mNeedInfos.size() != 0)
+            return mNeedInfos.size();
         else {
             return 1;
         }
@@ -154,15 +156,14 @@ public class MyRecyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    class mViewHolder extends RecyclerView.ViewHolder {
-        protected TextView remain_time, location, title;
-        protected ImageView avatar;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        private TextView remain_time, location, title;
+        private ImageView avatar;
+        private CardView cardView;
 
-        protected CardView cardView;
-
-        public mViewHolder(View itemView, int type) {
+        public MyViewHolder(View itemView, int type) {
             super(itemView);
-            if (type != 1) {
+            if (type != EMPTY_TYPE) {
                 avatar = (ImageView) itemView.findViewById(R.id.item_avatar);
                 remain_time = (TextView) itemView.findViewById(R.id.item_remain_time);
                 location = (TextView) itemView.findViewById(R.id.item_location);

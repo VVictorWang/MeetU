@@ -19,21 +19,13 @@ public class UserInfo {
      * needs : ["59d9f08fffc15019a717e10c","59d9f098ffc15019a717e10d"]
      */
 
-    private String _id;
     private String nickname;
     private String phone;
     private String qq;
-    private int age;
     private int love_level;
     private List<String> needs;
 
-    public String get_id() {
-        return _id;
-    }
 
-    public void set_id(String _id) {
-        this._id = _id;
-    }
 
     public String getNickname() {
         return nickname;
@@ -59,13 +51,7 @@ public class UserInfo {
         this.qq = qq;
     }
 
-    public int getAge() {
-        return age;
-    }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
 
     public int getLove_level() {
         return love_level;

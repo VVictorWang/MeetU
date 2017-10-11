@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -21,7 +23,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.hackday.play.MyApplication;
 import com.hackday.play.R;
 import com.hackday.play.data.GlobaData;
 import com.hackday.play.data.LocationInfor;
@@ -29,8 +30,10 @@ import com.hackday.play.service.NotificitionService;
 import com.hackday.play.ui.adapters.MyFragAdapter;
 import com.hackday.play.ui.base.BaseActivity;
 import com.hackday.play.ui.base.BasePresenter;
+import com.hackday.play.ui.contract.MainContract;
 import com.hackday.play.ui.fragments.MyFragment;
 import com.hackday.play.ui.fragments.SquareFragment;
+import com.hackday.play.ui.presenter.MainPresenter;
 import com.hackday.play.utils.PrefUtils;
 import com.hackday.play.utils.Utils;
 
@@ -39,9 +42,8 @@ import java.util.List;
 
 import static com.hackday.play.utils.PrefUtils.putValue;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements MainContract.View {
 
-    private boolean isEdited;
     private ImageView user_infor, sort;
     private DrawerLayout drawerLayout;
     private RelativeLayout drawer;
@@ -59,6 +61,9 @@ public class MainActivity extends BaseActivity {
     private TextView user_name, user_love_level;
     private LocationInfor infor = new LocationInfor();
     private RelativeLayout location_info;
+
+    private MainContract.Presenter mPresenter;
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -72,32 +77,15 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mPresenter = new MainPresenter(this);
         super.onCreate(savedInstanceState);
-        isEdited = PrefUtils.getBooleanValue(MainActivity.this, GlobaData.IS_EDITED);
-        if (!isEdited) {
-            View view = getLayoutInflater().inflate(R.layout.alert_dialog, null);
-            Button positive = (Button) view.findViewById(R.id.dialog_positive);
-            final AlertDialog dialog = new AlertDialog.Builder(this).setView(view).setCancelable
-                    (false).create();
-            positive.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                    Intent intent = new Intent();
-                    intent.setClass(MainActivity.this, EditProfileActivity.class);
-                    MyApplication.setLocationInfor(new LocationInfor());
-                    startActivity(intent);
-                }
-            });
-            dialog.show();
-        }
         startService(new Intent(MainActivity.this, NotificitionService.class));
         Utils.getLocation(infor, handler);
     }
 
     @Override
     protected BasePresenter getPresnter() {
-        return null;
+        return mPresenter;
     }
 
     @Override
@@ -135,7 +123,7 @@ public class MainActivity extends BaseActivity {
             }
         });
         viewPager = (ViewPager) findViewById(R.id.mViewPager);
-        fragment = new SquareFragment();
+        fragment = SquareFragment.newInstance(SquareFragment.STATUS_ALL);
         fragmentList.add(fragment);
         MyFragment myFragment = new MyFragment();
         fragmentList.add(myFragment);
@@ -147,7 +135,6 @@ public class MainActivity extends BaseActivity {
         view_umbrella = getLayoutInflater().inflate(R.layout.view_umbrella, null);
         view_square.setBackground(getResources().getDrawable(R.drawable.iconhall));
         view_umbrella.setBackground(getResources().getDrawable(R.drawable.icontaskc));
-
         InitTab();
         InitData();
     }
@@ -215,7 +202,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void InitData() {
-        user_name.setText(PrefUtils.getValue(MainActivity.this, GlobaData.NAME));
+        user_name.setText(PrefUtils.getValue(MainActivity.this, GlobaData.NICKNAME));
         user_love_level.setText("" + PrefUtils.getIntValue(MainActivity.this, GlobaData
                 .LOVE_LEVEL));
     }
@@ -226,6 +213,34 @@ public class MainActivity extends BaseActivity {
         umbrella = tabLayout.getTabAt(1);
         square.setCustomView(view_square);
         umbrella.setCustomView(view_umbrella);
+    }
+
+    @Override
+    public void setPresenter(MainContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public void showMyToast(String description) {
+
+    }
+
+    @Override
+    public void showEditView() {
+        View view = getLayoutInflater().inflate(R.layout.alert_dialog, null);
+        Button positive = (Button) view.findViewById(R.id.dialog_positive);
+        final AlertDialog dialog = new AlertDialog.Builder(this).setView(view).setCancelable
+                (false).create();
+        positive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, EditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+        dialog.show();
     }
 
 
@@ -267,6 +282,7 @@ public class MainActivity extends BaseActivity {
             });
             RelativeLayout near = (RelativeLayout) conentView.findViewById(R.id.near_me);
             near.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onClick(View v) {
                     fragment.sortByDistance();
@@ -275,6 +291,7 @@ public class MainActivity extends BaseActivity {
             });
             RelativeLayout time = (RelativeLayout) conentView.findViewById(R.id.sort_time);
             time.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onClick(View v) {
                     fragment.sortByDate();
@@ -283,6 +300,7 @@ public class MainActivity extends BaseActivity {
             });
             RelativeLayout girl = (RelativeLayout) conentView.findViewById(R.id.sort_girl);
             girl.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onClick(View v) {
                     fragment.sortGirl();

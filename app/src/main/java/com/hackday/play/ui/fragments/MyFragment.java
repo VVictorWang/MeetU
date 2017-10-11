@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.hackday.play.ui.adapters.MyFragAdapter;
 import com.hackday.play.R;
+import com.hackday.play.ui.adapters.MyFragAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,8 @@ public class MyFragment extends Fragment implements View.OnClickListener {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
+            Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_myumbrellas, container, false);
         viewPager = (ViewPager) view.findViewById(R.id.umbrella_ViewPager);
         tab1 = (RelativeLayout) view.findViewById(R.id.info_tab1);
@@ -38,7 +39,10 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         tab1.setOnClickListener(this);
         tab2.setOnClickListener(this);
         tab3.setOnClickListener(this);
-        SquareFragment fragment = new SquareFragment(), fragment1 = new SquareFragment(), fragment2 = new SquareFragment();
+
+        SquareFragment fragment = SquareFragment.newInstance(SquareFragment.STATUS_SHARED);
+        SquareFragment fragment1 = SquareFragment.newInstance(SquareFragment.STATUS_CREATED);
+        SquareFragment fragment2 = SquareFragment.newInstance(SquareFragment.STATUS_FINISHED);
         fragmentList.add(fragment);
         fragmentList.add(fragment1);
         fragmentList.add(fragment2);

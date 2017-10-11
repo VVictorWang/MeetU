@@ -7,27 +7,26 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
-import com.hackday.play.MyApplication;
 import com.hackday.play.R;
-import com.hackday.play.data.GlobaData;
+import com.hackday.play.api.UserApi;
 import com.hackday.play.data.LocationInfor;
+import com.hackday.play.data.StatusInfo;
+import com.hackday.play.data.UserInfo;
 import com.hackday.play.ui.base.BaseActivity;
 import com.hackday.play.ui.base.BasePresenter;
-import com.hackday.play.utils.PrefUtils;
 import com.hackday.play.utils.Utils;
+
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class EditProfileActivity extends BaseActivity {
 
-    private android.widget.RelativeLayout editprofiletoolbar;
-    private android.widget.RelativeLayout editidinfor;
-    private android.widget.RelativeLayout editnameinfor;
-    private android.widget.RelativeLayout editphoneinfor;
-    private android.widget.RelativeLayout editqqinfor;
-    private android.widget.RelativeLayout editlocationinfor;
+
     private EditText editname;
-    private EditText editphone;
+    private EditText editphone, editpassword;
     private EditText editqq;
     private EditText editlocation;
     private ImageView back;
@@ -59,16 +58,12 @@ public class EditProfileActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        this.editlocationinfor = (RelativeLayout) findViewById(R.id.edit_location_infor);
-        this.editqqinfor = (RelativeLayout) findViewById(R.id.edit_qq_infor);
-        this.editphoneinfor = (RelativeLayout) findViewById(R.id.edit_phone_infor);
-        this.editnameinfor = (RelativeLayout) findViewById(R.id.edit_name_infor);
-        this.editidinfor = (RelativeLayout) findViewById(R.id.edit_id_infor);
-        this.editprofiletoolbar = (RelativeLayout) findViewById(R.id.edit_profile_toolbar);
+
         this.editlocation = (EditText) findViewById(R.id.edit_location);
         this.editqq = (EditText) findViewById(R.id.edit_qq);
         this.editphone = (EditText) findViewById(R.id.edit_phone);
         this.editname = (EditText) findViewById(R.id.edit_name);
+        this.editpassword = (EditText) findViewById(R.id.password);
         back = (ImageView) findViewById(R.id.edit_back);
         confirm = (Button) findViewById(R.id.confirm_edit);
         Utils.getLocation(locationInfor, handler);
@@ -85,23 +80,44 @@ public class EditProfileActivity extends BaseActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String name = editname.getText().toString();
                 String qq = editqq.getText().toString();
                 String phone = editphone.getText().toString();
-                locationInfor.setName(name);
-                locationInfor.setQq(qq);
-                locationInfor.setPhone(phone);
-                MyApplication.setLocationInfor(locationInfor);
+                String password = editpassword.getText().toString();
+                final UserInfo userInfo = new UserInfo();
+                userInfo.setLove_level(0);
+                userInfo.setPhone(phone);
+                userInfo.setQq(qq);
+                userInfo.setNickname(name);
+                Observable<StatusInfo> observable = UserApi.getInstance().register(name, phone,
+                        password, qq);
+                observable.observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(new Observer<StatusInfo>() {
+                            @Override
+                            public void onCompleted() {
 
-                PrefUtils.putIntValue(EditProfileActivity.this, GlobaData.ID, 3);
-                PrefUtils.putValue(EditProfileActivity.this, GlobaData.NAME, name);
-                PrefUtils.putValue(EditProfileActivity.this, GlobaData.QQ, qq);
-                PrefUtils.putValue(EditProfileActivity.this, GlobaData.PHONE, phone);
-                PrefUtils.putBooleanValue(EditProfileActivity.this, GlobaData.IS_EDITED, true);
-                finish();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(StatusInfo statusInfo) {
+                                if (statusInfo.getStatus() == 1) {
+                                    showToast("注册成功");
+                                    Utils.updateUserInfo(userInfo);
+                                    finish();
+                                } else {
+                                    showToast("手机号已注册");
+                                }
+                            }
+                        });
             }
         });
-
     }
 
 

@@ -1,12 +1,6 @@
 package com.hackday.play.utils;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -14,9 +8,10 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
 import com.hackday.play.MyApplication;
-import com.hackday.play.R;
-import com.hackday.play.ui.adapters.MyRecyAdapter;
+import com.hackday.play.data.GlobaData;
 import com.hackday.play.data.LocationInfor;
+import com.hackday.play.data.UserInfo;
+import com.hackday.play.ui.adapters.MyRecyAdapter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -161,6 +156,22 @@ public class Utils {
     }
 
 
+    public static String getPhone() {
+        return PrefUtils.getValue(AppUtils.getAppContext(), GlobaData.PHONE);
+    }
+
+    public static String getToken() {
+        return PrefUtils.getValue(AppUtils.getAppContext(), GlobaData.TOKEN);
+    }
+
+    public static void updateUserInfo(UserInfo userInfo) {
+        PrefUtils.putIntValue(AppUtils.getAppContext(), GlobaData.LOVE_LEVEL, userInfo
+                .getLove_level());
+        PrefUtils.putValue(AppUtils.getAppContext(), GlobaData.NICKNAME, userInfo.getNickname());
+        PrefUtils.putValue(AppUtils.getAppContext(), GlobaData.PHONE, userInfo.getPhone());
+        PrefUtils.putValue(AppUtils.getAppContext(), GlobaData.QQ, userInfo.getQq());
+    }
+
     private static double rad(double d) {
         return d * Math.PI / 180.0;
     }
@@ -181,28 +192,28 @@ public class Utils {
         return s;
     }
 
-    public static void sortByDistance(List<LocationInfor> locationInfors, MyRecyAdapter adapter,
-                                      LocationInfor user) {
-        double x = user.getLatitude();
-        double y = user.getLongtitude();
-        LocationInfor[] infors = new LocationInfor[]{};
-        infors = locationInfors.toArray(infors);
-        for (int i = 0; i < locationInfors.size(); i++) {
-            for (int j = i + 1; j < locationInfors.size(); j++) {
-                if (GetDistance(x, y, infors[i].getLatitude(), infors[i].getLongtitude()) <
-                        GetDistance(x, y, infors[j].getLatitude(), infors[j].getLongtitude())) {
-                    LocationInfor temp = infors[i];
-                    infors[i] = infors[j];
-                    infors[j] = temp;
-                }
-            }
-        }
-        List<LocationInfor> s = new ArrayList<>();
-        for (int i = 0; i < infors.length; i++) {
-            s.add(infors[i]);
-        }
-        adapter.setLocationInforList(s);
-    }
+//    public static void sortByDistance(List<LocationInfor> locationInfors, MyRecyAdapter adapter,
+//                                      LocationInfor user) {
+//        double x = user.getLatitude();
+//        double y = user.getLongtitude();
+//        LocationInfor[] infors = new LocationInfor[]{};
+//        infors = locationInfors.toArray(infors);
+//        for (int i = 0; i < locationInfors.size(); i++) {
+//            for (int j = i + 1; j < locationInfors.size(); j++) {
+//                if (GetDistance(x, y, infors[i].getLatitude(), infors[i].getLongtitude()) <
+//                        GetDistance(x, y, infors[j].getLatitude(), infors[j].getLongtitude())) {
+//                    LocationInfor temp = infors[i];
+//                    infors[i] = infors[j];
+//                    infors[j] = temp;
+//                }
+//            }
+//        }
+//        List<LocationInfor> s = new ArrayList<>();
+//        for (int i = 0; i < infors.length; i++) {
+//            s.add(infors[i]);
+//        }
+//        adapter.setLocationInforList(s);
+//    }
 
 
     public static String formatDate(Date date) {
@@ -246,44 +257,43 @@ public class Utils {
         return false;
 
     }
+//
+//    public static void sortByDate(List<LocationInfor> locationInfors, MyRecyAdapter recyAdapter) {
+//        LocationInfor[] infors = new LocationInfor[]{};
+//        infors = locationInfors.toArray(infors);
+//        for (int i = 0; i < locationInfors.size(); i++) {
+//            for (int j = i + 1; j < locationInfors.size(); j++) {
+//                if (isBefore(infors[i].getTime(), infors[j].getTime())) {
+//                    LocationInfor temp = infors[i];
+//                    infors[i] = infors[j];
+//                    infors[j] = temp;
+//                }
+//            }
+//        }
+//        List<LocationInfor> s = new ArrayList<>();
+//        for (int i = 0; i < infors.length; i++) {
+//            s.add(infors[i]);
+//        }
+//        recyAdapter.setLocationInforList(s);
+//    }
 
-    public static void sortByDate(List<LocationInfor> locationInfors, MyRecyAdapter recyAdapter) {
-        LocationInfor[] infors = new LocationInfor[]{};
-        infors = locationInfors.toArray(infors);
-        for (int i = 0; i < locationInfors.size(); i++) {
-            for (int j = i + 1; j < locationInfors.size(); j++) {
-                if (isBefore(infors[i].getTime(), infors[j].getTime())) {
-                    LocationInfor temp = infors[i];
-                    infors[i] = infors[j];
-                    infors[j] = temp;
-                }
-            }
-        }
-        List<LocationInfor> s = new ArrayList<>();
-        for (int i = 0; i < infors.length; i++) {
-            s.add(infors[i]);
-        }
-        recyAdapter.setLocationInforList(s);
-    }
-
-    public static void sortGril(List<LocationInfor> locationInfors, MyRecyAdapter recyAdapter) {
-        LocationInfor[] infors = new LocationInfor[]{};
-        infors = locationInfors.toArray(infors);
-        List<LocationInfor> s = new ArrayList<>();
-        List<LocationInfor> temp = new ArrayList<>();
-        for (int i = 0; i < locationInfors.size(); i++) {
-            if (infors[i].getSex() == -1) {
-                s.add(infors[i]);
-            } else {
-                temp.add(infors[i]);
-            }
-        }
-        for (LocationInfor locationInfor : temp) {
-            s.add(locationInfor);
-        }
-        recyAdapter.setLocationInforList(s);
-    }
-
+//    public static void sortGril(List<LocationInfor> locationInfors, MyRecyAdapter recyAdapter) {
+//        LocationInfor[] infors = new LocationInfor[]{};
+//        infors = locationInfors.toArray(infors);
+//        List<LocationInfor> s = new ArrayList<>();
+//        List<LocationInfor> temp = new ArrayList<>();
+//        for (int i = 0; i < locationInfors.size(); i++) {
+//            if (infors[i].getSex() == -1) {
+//                s.add(infors[i]);
+//            } else {
+//                temp.add(infors[i]);
+//            }
+//        }
+//        for (LocationInfor locationInfor : temp) {
+//            s.add(locationInfor);
+//        }
+//        recyAdapter.setLocationInforList(s);
+//    }
 
 
 }

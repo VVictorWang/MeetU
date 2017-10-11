@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/adapter-rxjava/2.3.0/43e4ac24adc40a24c51b2d2a71a2483ef1b0ce9a/adapter-rxjava-2.3.0.jar"
+        revision="25.0.2"
+        sha1="43e4ac24adc40a24c51b2d2a71a2483ef1b0ce9a">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/adapter-rxjava-2.3.0-7509b03c6deb6c33ab40d7b6cdebccb4a02aed1c.jar" />
+    </item>
+    <item
+        jar="/home/victor/.android/build-cache/cea4f0f0ec542e701c91b4efa0f7a0d869412ad0/output/jars/classes.jar"
+        revision="25.0.2"
+        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-0ff41ae5b78b152838aecc8c7a2509802cac66ea.jar" />
+    </item>
+    <item
+        jar="/home/victor/Android/Sdk/extras/m2repository/com/android/support/constraint/constraint-layout-solver/1.0.2/constraint-layout-solver-1.0.2.jar"
+        revision="25.0.2"
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/constraint-layout-solver-1.0.2-347da58ba476d9f5e0bddb89d26facc9367c072e.jar" />
+    </item>
+    <item
+        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.8.0/5a11f020cce2d11eb71ba916700600e18c4547e7/okhttp-3.8.0.jar"
+        revision="25.0.2"
+        sha1="5a11f020cce2d11eb71ba916700600e18c4547e7">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/okhttp-3.8.0-7084f8629488d8f599815cae8a30845319e0c385.jar" />
+    </item>
+    <item
+        jar="/home/victor/.android/build-cache/cdece9a2bda357d419fc7de50ecd3396c11ed1f0/output/jars/classes.jar"
+        revision="25.0.2"
+        sha1="db185f06215220526d21bbf467cae061956cc185">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-9196fe68018387c63f7c1fb338437883e1a7ef89.jar" />
+    </item>
+    <item
+        jar="/home/victor/.android/build-cache/f142cf317f50ae64909f7d7574402570e81987bf/output/jars/classes.jar"
+        revision="25.0.2"
+        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-9ac0fd9dc50e8fc640294d5a5cc7b90b14a6125d.jar" />
+    </item>
+    <item
+        jar="/home/victor/.android/build-cache/eb7d03d082337ad18df9667759776aa2c4852050/output/jars/classes.jar"
+        revision="25.0.2"
+        sha1="150252b33b00274cc868578ade018fda0d43a3eb">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-ee75dd577a793909bc0ebb0aeba72bf88100d58a.jar" />
+    </item>
+    <item
+        jar="/home/victor/.android/build-cache/36633fa54009114d15ca7c5ef0844f58411aeed9/output/jars/classes.jar"
+        revision="25.0.2"
+        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-424384104f6435c93a6c867554d44ed8766b4d78.jar" />
+    </item>
+    <item
+        jar="/home/victor/.android/build-cache/1207526fd6d747521a20f74022518c250d7b3571/output/jars/classes.jar"
+        revision="25.0.2"
+        sha1="d4cf6227dd6a2ceff0f7dcf0c324380b7abf2c28">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-2b39ca9db8486e37d46596242cf5ea7f577574bf.jar" />
+    </item>
+    <item
+        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/converter-gson/2.3.0/9e09011e9767bb76b5e27c9b8223476b93b14631/converter-gson-2.3.0.jar"
+        revision="25.0.2"
+        sha1="9e09011e9767bb76b5e27c9b8223476b93b14631">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/converter-gson-2.3.0-7c47b819e94dbcc662002c892ab09afd8890e579.jar" />
+    </item>
+    <item
+        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.7/751f548c85fa49f330cecbb1875893f971b33c4e/gson-2.7.jar"
+        revision="25.0.2"
+        sha1="751f548c85fa49f330cecbb1875893f971b33c4e">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/gson-2.7-f07bbd84c8b36c8c55a009186817e80c6e3d109e.jar" />
+    </item>
+    <item
+        jar="/home/victor/.android/build-cache/105cfb3f7d408f931e8a3d762990738e27cfde4f/output/jars/classes.jar"
+        revision="25.0.2"
+        sha1="95519720620b553f63afc789beba9ad582807f7c">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-e58f073b49db483055da68684d81df2d0c8baf09.jar" />
+    </item>
+    <item
+        jar="/home/victor/Android/Sdk/platforms/android-25/android.jar"
+        revision="25.0.2"
+        sha1="712a0312fe844a21a1b3812fa960c363a1578984">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackRuntimeLibraries/debug/jars/8000/40/android-e585db7207b3c21f8af311e9658f1f820b1ebde9.jar" />
+    </item>
+    <item
+        jar="/home/victor/.android/build-cache/ac373263e8a7aedf0ce7cd222122946d953cec17/output/jars/classes.jar"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-99bd6086b37446d21f500e35df2df08c66f37558.jar" />
+    </item>
+    <item
+        jar="/home/victor/.android/build-cache/ea9a1a5f424622a89e27cc543670a8c5eb599e31/output/jars/classes.jar"
+        revision="25.0.2"
+        sha1="914f5d3e3ace66080e59613708f06d129a222e25">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-cb74c8e78117024b8238335f1143f8b251a5dc03.jar" />
+    </item>
+    <item
+        jar="/home/victor/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/25.3.1/support-annotations-25.3.1.jar"
+        revision="25.0.2"
+        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/support-annotations-25.3.1-0af569dd1800fad08b790616cfd517763fc4935a.jar" />
+    </item>
+    <item
+        jar="/home/victor/.android/build-cache/81174a2d8b6dac9de541cf4b663bd3ab74d1eaef/output/jars/classes.jar"
+        revision="25.0.2"
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-c50ac73ad51a886b4c2f2c13ca60130768b15bc2.jar" />
+    </item>
+    <item
+        jar="/home/victor/.android/build-cache/b9349668a5919ac72da356450a548fb808ae8994/output/jars/classes.jar"
+        revision="25.0.2"
+        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-d76fc11a42fb77a39580102dc6eb81ee9f2affb5.jar" />
+    </item>
+    <item
+        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.13.0/a9283170b7305c8d92d25aff02a6ab7e45d06cbe/okio-1.13.0.jar"
+        revision="25.0.2"
+        sha1="a9283170b7305c8d92d25aff02a6ab7e45d06cbe">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/okio-1.13.0-a25f11e0e05315d980cbe93d4c7d86f269c51916.jar" />
+    </item>
+    <item
+        jar="/home/victor/.android/build-cache/c8ece5e3cddca20414a60f305b72b561d07222a4/output/jars/classes.jar"
+        revision="25.0.2"
+        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-0e3b2deef6e77dbdd09f60c6c9509fb08c64a40e.jar" />
+    </item>
+    <item
+        jar="/home/victor/.android/build-cache/0fc368fae7038ec1e200ddcd321cc17f4ff321b2/output/jars/classes.jar"
+        revision="25.0.2"
+        sha1="5a2386ad9bfff580b206a7fe305cdccd00798159">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-1e2cab879e16e458f0d015a0aa1c77baad93fdf8.jar" />
+    </item>
+    <item
+        jar="/home/victor/.gradle/caches/modules-2/files-2.1/io.reactivex/rxjava/1.3.2/bcc561a84883a9f3f84e209662c4765a0c3dc691/rxjava-1.3.2.jar"
+        revision="25.0.2"
+        sha1="bcc561a84883a9f3f84e209662c4765a0c3dc691">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/rxjava-1.3.2-da6eb2f67bdab3de22cc9e1e5438ed02586a2aa7.jar" />
+    </item>
+    <item
+        jar="/home/victor/.android/build-cache/ab6d8cbccc4b2fb57d03076396e87bb386e6f48d/output/jars/classes.jar"
+        revision="25.0.2"
+        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-e19dd3acec58f43d083d7c8cab57fd788dea362a.jar" />
+    </item>
+    <item
+        jar="/home/victor/Android/Sdk/platforms/android-25/optional/org.apache.http.legacy.jar"
+        revision="25.0.2"
+        sha1="5f0541a4298daa0590b22cfbde43f85e2a675545">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackRuntimeLibraries/debug/jars/8000/40/org.apache.http.legacy-1397705857211b2cfea2011a0a95c025cd7914d4.jar" />
+    </item>
+    <item
+        jar="/home/victor/.android/build-cache/1959f553bfb115aa011efa2b60958dee79842d41/output/jars/classes.jar"
+        revision="25.0.2"
+        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-ae06df315e6aed055cd944a9add4f77727a7dc03.jar" />
+    </item>
+    <item
+        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/retrofit/2.3.0/bcacde6a8ccedcc56c127403d26b76072fe6214d/retrofit-2.3.0.jar"
+        revision="25.0.2"
+        sha1="bcacde6a8ccedcc56c127403d26b76072fe6214d">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/retrofit-2.3.0-06be186dbee08b1ac4b14b065cbb1a65789eff73.jar" />
+    </item>
+    <item
+        jar="/home/victor/.android/build-cache/77a6f92a621b0efb15a96fe3de7b99a5e5333570/output/jars/classes.jar"
+        revision="25.0.2"
+        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-0550ce000895817e83e613b9c369cbcbaabd0672.jar" />
+    </item>
+    <item
+        jar="/home/victor/AndroidProject/MeetU/app/libs/BaiduLBS_Android.jar"
+        revision="25.0.2"
+        sha1="956bcbf7c2cc5827cc9ef339d7b8a9701c76ece4">
+        <dex dex="/home/victor/AndroidProject/MeetU/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/BaiduLBS_Android-40364682196eca1d856c777218e12242827ad9c8.jar" />
+    </item>
+
+</items>
