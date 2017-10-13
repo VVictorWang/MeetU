@@ -89,6 +89,7 @@
             android:layout_marginRight="40dp"
             android:background="@null"
             android:hint="请输入手机号"
+            android:inputType="number"
             android:textColor="@color/blue"
             android:textColorHint="@color/blue"
             android:textSize="14sp"/>
@@ -153,6 +154,7 @@
             android:layout_marginRight="40dp"
             android:background="@null"
             android:hint="请输入qq"
+            android:inputType="number"
             android:textColor="@color/blue"
             android:textColorHint="@color/blue"
             android:textSize="14sp"/>

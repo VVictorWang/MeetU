@@ -13,6 +13,13 @@ public interface MainContract {
 
     interface View extends BaseView<Presenter> {
         void showEditView();
+
+        void setUserName(String name);
+
+        void setUserLove_Level(int love_level);
+
+        void setUserPhone(String phone);
+
     }
 
     interface Presenter extends BasePresenter {

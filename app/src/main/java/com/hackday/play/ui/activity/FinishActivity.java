@@ -11,6 +11,7 @@ import com.hackday.play.R;
 import com.hackday.play.api.UserApi;
 import com.hackday.play.data.GlobaData;
 import com.hackday.play.data.NeedInfo;
+import com.hackday.play.data.UserInfo;
 import com.hackday.play.ui.base.BaseActivity;
 import com.hackday.play.ui.base.BasePresenter;
 import com.hackday.play.utils.ActivityManager;
@@ -65,6 +66,12 @@ public class FinishActivity extends BaseActivity {
         dia_text = (TextView) view.findViewById(R.id.dialog_text);
         positive = (Button) view.findViewById(R.id.dialog_positive);
         dia_text.setText("哇～,你成功和ta分享了一次雨伞\n     你的爱心值增加了1");
+
+
+    }
+
+    @Override
+    protected void initEvent() {
         final AlertDialog dialog = new AlertDialog.Builder(FinishActivity.this).create();
         getsafely.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,15 +91,37 @@ public class FinishActivity extends BaseActivity {
                         .subscribe(new Observer<NeedInfo>() {
                             @Override
                             public void onCompleted() {
-                                int level = PrefUtils.getIntValue(FinishActivity.this, GlobaData
-                                        .LOVE_LEVEL);
-                                level++;
-                                PrefUtils.putIntValue(FinishActivity.this, GlobaData.LOVE_LEVEL,
-                                        level);
-                                dialog.dismiss();
-                                MyActivityManager.getInstance().popAllActivity();
-                                ActivityManager.startActivity(FinishActivity.this, MainActivity
-                                        .class);
+                                Observable<UserInfo> observable1 = UserApi.getInstance()
+                                        .changeLoveLevel(Utils.getPhone(), Utils.getToken());
+                                observable1.observeOn(AndroidSchedulers.mainThread())
+                                        .subscribeOn(Schedulers.io())
+                                        .subscribe(new Observer<UserInfo>() {
+                                            @Override
+                                            public void onCompleted() {
+                                                dialog.dismiss();
+                                                MyActivityManager.getInstance().popAllActivity();
+                                                ActivityManager.startActivity(FinishActivity
+                                                        .this, MainActivity
+                                                        .class);
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable e) {
+
+                                            }
+
+                                            @Override
+                                            public void onNext(UserInfo userInfo) {
+                                                PrefUtils.putIntValue(getActivity(), GlobaData
+                                                        .LOVE_LEVEL, userInfo.getLove_level());
+                                            }
+                                        });
+//                                int level = PrefUtils.getIntValue(FinishActivity.this, GlobaData
+//                                        .LOVE_LEVEL);
+//                                level++;
+//                                PrefUtils.putIntValue(FinishActivity.this, GlobaData.LOVE_LEVEL,
+//                                        level);
+
                             }
 
                             @Override
@@ -108,12 +137,6 @@ public class FinishActivity extends BaseActivity {
 
             }
         });
-
-
-    }
-
-    @Override
-    protected void initEvent() {
 
     }
 

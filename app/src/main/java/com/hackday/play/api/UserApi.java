@@ -28,8 +28,8 @@ public class UserApi {
     public static UserApi getInstance() {
         if (instance == null) {
             OkHttpClient client = new OkHttpClient.Builder()
-                    .readTimeout(200, TimeUnit.SECONDS)
-                    .connectTimeout(200, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .connectTimeout(30, TimeUnit.SECONDS)
                     .retryOnConnectionFailure(true)
                     .build();
             instance = new UserApi(client);
@@ -39,7 +39,7 @@ public class UserApi {
 
     public UserApi(OkHttpClient client) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://www.victorwang.science:8889/api/v1/")
+                .baseUrl("http://www.victorwang.science:8888/api/v1/")
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
@@ -66,12 +66,14 @@ public class UserApi {
         return mUserApiService.getAllNeeds(header);
     }
 
-    public Observable<NeedInfo> addNeed(String creator_phone, String desc, int continue_time,
+    public Observable<NeedInfo> addNeed(String creator_phone, String desc, String continue_time,
                                         String sex, float longitude, float latitude, String
-                                                location, String destination, String token) {
+                                                location, String destination, long created_time,
+                                        String token) {
         return mUserApiService.addNeed(token, new JsonRequestBody().setCreatorPhone(creator_phone)
                 .setDesc(desc).setContinue(continue_time).setSex(sex).setLongitude(longitude)
-                .setLatitude(latitude).setLocation(location).setDestination(destination).create());
+                .setLatitude(latitude).setLocation(location).setCreatedTime(created_time)
+                .setDestination(destination).create());
 
     }
 
@@ -87,5 +89,9 @@ public class UserApi {
     public Observable<NeedInfo> finishedNeed(String id, String token) {
         return mUserApiService.changeNeedInfo(token, id, new JsonRequestBody().setStatus(2)
                 .create());
+    }
+
+    public Observable<UserInfo> changeLoveLevel(String phone, String token) {
+        return mUserApiService.changeLoveLevel(token, phone);
     }
 }

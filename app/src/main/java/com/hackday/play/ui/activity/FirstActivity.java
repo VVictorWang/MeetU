@@ -9,7 +9,7 @@ import com.hackday.play.R;
 import com.hackday.play.utils.MyActivityManager;
 
 public class FirstActivity extends AppCompatActivity {
-    private int second = 3000;
+    private int second = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

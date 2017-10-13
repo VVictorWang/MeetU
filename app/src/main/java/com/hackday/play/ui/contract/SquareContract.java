@@ -17,6 +17,8 @@ public interface SquareContract {
     interface View extends BaseView<Presenter> {
         void showList(List<NeedInfo> needInfos);
 
+        void disableRefresh();
+
         int getStatus();
     }
 

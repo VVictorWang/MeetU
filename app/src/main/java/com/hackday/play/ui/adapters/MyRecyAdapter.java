@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.hackday.play.R;
 import com.hackday.play.data.NeedInfo;
 import com.hackday.play.ui.activity.EditUmbrellaActivity;
+import com.hackday.play.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,8 +69,10 @@ public class MyRecyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (mNeedInfos.size() != 0) {
                 NeedInfo need = mNeedInfos.get(i);
                 ((MyViewHolder) mViewHolder).location.setText(need.getLocation());
-                ((MyViewHolder) mViewHolder).remain_time.setText(need.getContinue_time());
+                ((MyViewHolder) mViewHolder).remain_time.setText(need.getContinue_time()+"内");
                 ((MyViewHolder) mViewHolder).title.setText(need.getDesc());
+                ((MyViewHolder) mViewHolder).create_time.setText(Utils.formatChineseDate(need
+                        .getCreate_time()));
                 ((MyViewHolder) mViewHolder).cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -160,12 +163,14 @@ public class MyRecyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private TextView remain_time, location, title;
         private ImageView avatar;
         private CardView cardView;
+        private TextView create_time;
 
         public MyViewHolder(View itemView, int type) {
             super(itemView);
             if (type != EMPTY_TYPE) {
                 avatar = (ImageView) itemView.findViewById(R.id.item_avatar);
                 remain_time = (TextView) itemView.findViewById(R.id.item_remain_time);
+                create_time = (TextView) itemView.findViewById(R.id.item_create_time);
                 location = (TextView) itemView.findViewById(R.id.item_location);
                 title = (TextView) itemView.findViewById(R.id.item_title);
                 cardView = (CardView) itemView.findViewById(R.id.item_CardView);

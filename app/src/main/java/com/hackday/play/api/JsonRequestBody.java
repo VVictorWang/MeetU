@@ -69,6 +69,16 @@ public class JsonRequestBody {
         return this;
     }
 
+    public JsonRequestBody setCreatedTime(long createdTime) {
+        try {
+            mJSONObject.put("created_time", createdTime);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return this;
+    }
+
+
     public JsonRequestBody setDesc(String desc) {
         try {
             mJSONObject.put("desc", desc);
@@ -78,7 +88,7 @@ public class JsonRequestBody {
         return this;
     }
 
-    public JsonRequestBody setContinue(int continue_time) {
+    public JsonRequestBody setContinue(String continue_time) {
         try {
             mJSONObject.put("continue_time", continue_time);
         } catch (Exception e) {

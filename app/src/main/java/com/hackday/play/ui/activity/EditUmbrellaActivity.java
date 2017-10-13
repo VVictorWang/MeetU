@@ -1,8 +1,11 @@
 package com.hackday.play.ui.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -46,11 +49,23 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
     private RelativeLayout relativeLayout;
     private ImageView addboy, addgirl, addsecret, clock, titleImg, back;
     private LinearLayout backgroung, helperLayout, buttonLayout;
+    private ProgressDialog mProgressDialog;
 
     private EditUmbrellaContract.Presenter mPresenter;
 
     private String sex = "男";
     private int mode = 0;
+
+    private NeedInfo loca = new NeedInfo();
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 0x123) {
+                where.setText(loca.getLocation());
+            }
+        }
+    };
 
 
     @Override
@@ -62,23 +77,6 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
         super.onCreate(savedInstanceState);
     }
 
-    private void getLocation() {
-        BDLocationListener listener = new BDLocationListener() {
-            @Override
-            public void onReceiveLocation(BDLocation bdLocation) {
-                List<Poi> list = bdLocation.getPoiList();    // POI数据
-                if (list != null) {
-                    where.setText(list.get(1).getName());
-                }
-            }
-
-            @Override
-            public void onConnectHotSpotMessage(String s, int i) {
-
-            }
-        };
-        Utils.LocationHelper(listener);
-    }
 
     @Override
     protected BasePresenter getPresnter() {
@@ -114,7 +112,10 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
         buttonLayout = (LinearLayout) findViewById(R.id.activity_add_ButtonLayout);
         cancelButton = (Button) findViewById(R.id.activity_add_Button_Cancel);
         meetButton = (Button) findViewById(R.id.activity_add_Button_Meet);
-        getLocation();
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setTitle("正在加载中...");
+        Utils.getLocation(loca, handler, false);
+//        getLocation();
     }
 
     @Override
@@ -228,8 +229,12 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
         return getIntent().getStringExtra("id");
     }
 
+
     @Override
-    public void showOtherView(NeedInfo needInfo) {
+    public void showHelpView(NeedInfo needInfo) {
+        showBrowseView();
+        editText.setVisibility(View.INVISIBLE);
+        buttonLayout.setVisibility(View.GONE);
         switch (needInfo.getSex()) {
             case "男":
                 button.setText("帮助他");
@@ -238,7 +243,7 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
                 button.setText("帮助她");
                 break;
             case "秘密":
-                button.setText("帮助他/她");
+                button.setText("帮助Ta");
                 break;
         }
         button.setOnClickListener(new View.OnClickListener() {
@@ -247,15 +252,28 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
                 mPresenter.help();
             }
         });
+        textView.setText(needInfo.getDesc());
+
     }
 
     @Override
-    public void showFinishedView() {
+    public void showFinishedView(NeedInfo needInfo) {
+        showBrowseView();
+        editText.setVisibility(View.GONE);
+        button.setText("已完成");
+        button.setVisibility(View.VISIBLE);
+        button.setEnabled(false);
         buttonLayout.setVisibility(View.GONE);
+        textView.setText(needInfo.getDesc());
+
     }
 
     @Override
-    public void showRunningView() {
+    public void showRunningView(NeedInfo needInfo) {
+        showBrowseView();
+        editText.setVisibility(View.GONE);
+        buttonLayout.setVisibility(View.INVISIBLE);
+        button.setVisibility(View.GONE);
         meetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -270,10 +288,13 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
                 showDeleteDialog();
             }
         });
+        textView.setText(needInfo.getDesc());
     }
 
     @Override
-    public void showWaitingView() {
+    public void showWaitingView(NeedInfo needInfo) {
+        showBrowseView();
+        button.setVisibility(View.GONE);
         meetButton.setText("修改");
         meetButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -287,6 +308,40 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
                 showDeleteDialog();
             }
         });
+        textView.setText(needInfo.getDesc());
+    }
+
+    @Override
+    public void showProgressDialog() {
+        mProgressDialog.show();
+    }
+
+    @Override
+    public void dismissProgressDialog() {
+        mProgressDialog.dismiss();
+    }
+
+    @Override
+    public void setBackGround(int sex) {
+        switch (sex) {
+            case 0:
+                backgroung.setBackground(getResources().getDrawable(R.drawable
+                        .add_back));
+                titleImg.setImageResource(R.drawable.add_banner_boy);
+                break;
+            case 1:
+                backgroung.setBackground(getResources().getDrawable(R.drawable
+                        .add_back_girl));
+                titleImg.setImageResource(R.drawable.add_banner_girl);
+                break;
+            case 2:
+                backgroung.setBackground(getResources().getDrawable(R.drawable
+                        .add_back_secret));
+                titleImg.setImageResource(R.drawable.add_banner_secret);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -295,6 +350,11 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
         helperLayout.setVisibility(View.GONE);
         button.setText("点击求帮助OvO");
         buttonLayout.setVisibility(View.GONE);
+        relativeLayout.setVisibility(View.VISIBLE);
+        time.setEnabled(true);
+        clock.setClickable(true);
+        editText.setVisibility(View.VISIBLE);
+        button.setVisibility(View.VISIBLE);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -310,9 +370,7 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
                         addgirl.setImageResource(R.drawable.addgirl);
                         addsecret.setImageResource(R.drawable.addsecret);
                         sex = "男";
-                        backgroung.setBackground(getResources().getDrawable(R.drawable
-                                .add_back));
-                        titleImg.setImageResource(R.drawable.add_banner_boy);
+                        setBackGround(0);
                         break;
                     }
                     case R.id.activity_add_addgirl: {
@@ -320,9 +378,7 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
                         addgirl.setImageResource(R.drawable.addgirlc);
                         addsecret.setImageResource(R.drawable.addsecret);
                         sex = "女";
-                        backgroung.setBackground(getResources().getDrawable(R.drawable
-                                .add_back_girl));
-                        titleImg.setImageResource(R.drawable.add_banner_girl);
+                        setBackGround(1);
                         break;
                     }
                     case R.id.activity_add_addsecret: {
@@ -330,9 +386,7 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
                         addgirl.setImageResource(R.drawable.addgirl);
                         addsecret.setImageResource(R.drawable.addsecretc);
                         sex = "秘密";
-                        backgroung.setBackground(getResources().getDrawable(R.drawable
-                                .add_back_secret));
-                        titleImg.setImageResource(R.drawable.add_banner_secret);
+                        setBackGround(2);
                         break;
                     }
                 }
@@ -357,8 +411,10 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
                         }
                         Observable<NeedInfo> observable = UserApi.getInstance().addNeed(Utils
                                         .getPhone(),
-                                text, 10, sex, (float) bdLocation.getLongitude(), (float)
-                                        bdLocation.getLatitude(), loca, "东一食堂", Utils.getToken());
+                                text, time.getText().toString(), sex, (float) bdLocation
+                                        .getLongitude(), (float)
+                                        bdLocation.getLatitude(), loca, "东一食堂", System
+                                        .currentTimeMillis(), Utils.getToken());
                         observable.observeOn(AndroidSchedulers.mainThread())
                                 .subscribeOn(Schedulers.io())
                                 .subscribe(new Observer<NeedInfo>() {
@@ -390,7 +446,6 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
         });
     }
 
-    @Override
     public void showBrowseView() {
         clock.setClickable(false);
         time.setEnabled(false);
@@ -402,7 +457,7 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
                 finish();
             }
         });
-        button.setVisibility(View.GONE);
+
     }
 }
 

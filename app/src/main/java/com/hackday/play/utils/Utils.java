@@ -1,6 +1,7 @@
 package com.hackday.play.utils;
 
 import android.os.Handler;
+import android.util.Log;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -9,13 +10,10 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
 import com.hackday.play.MyApplication;
 import com.hackday.play.data.GlobaData;
-import com.hackday.play.data.LocationInfor;
+import com.hackday.play.data.NeedInfo;
 import com.hackday.play.data.UserInfo;
-import com.hackday.play.ui.adapters.MyRecyAdapter;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +22,8 @@ import java.util.List;
  */
 
 public class Utils {
-    public static void getLocation(final LocationInfor locationInfor, final Handler handler) {
+    public static void getLocation(final NeedInfo needInfo, final Handler handler, boolean
+            isDetail) {
         LocationClient locationClient = new LocationClient(MyApplication.getContext());
         LocationClientOption option = new LocationClientOption();
         //可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
@@ -66,38 +65,27 @@ public class Utils {
             @Override
             public void onReceiveLocation(BDLocation location) {
                 //获取定位结果
-                locationInfor.setTime(location.getTime());
-                locationInfor.setLatitude(location.getLatitude());
-                locationInfor.setLongtitude(location.getLongitude());
+                needInfo.setLatitude(location.getLatitude());
+                needInfo.setLongitude(location.getLongitude());
 //                sb.append(location.getLongitude());    //获取经度信息
 
-                if (location.getLocType() == BDLocation.TypeGpsLocation) {
 
-                    // GPS定位结果
-                } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
+                // 网络定位结果
+//                needInfo.setLocation(location.getAddrStr());
 
-                    // 网络定位结果
-                    locationInfor.setAddr(location.getAddrStr());
-                } else if (location.getLocType() == BDLocation.TypeOffLineLocation) {
-
-                    // 离线定位结果
-                } else if (location.getLocType() == BDLocation.TypeServerError) {
-
-
-                } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
-
-//
-                } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
-
-
-                }
 
                 List<Poi> list = location.getPoiList();    // POI数据
+                needInfo.setLocation(list.get(1).getName());
+                //如果需要获取更加详细的地址(主要在MainActivity中调用
+                if (isDetail) {
+                    needInfo.setDesc(list.get(2).getName());
+                }
                 if (list != null) {
                     for (Poi p : list) {
                         String name = p.getName();
+                        Log.d("@victor", name);
                     }
-                    locationInfor.setSpecific_infor(list.get(1).getName());
+//                    locationInfor.setSpecific_infor(list.get(1).getName());
                 }
                 handler.sendEmptyMessage(0x123);
             }
@@ -113,7 +101,6 @@ public class Utils {
     }
 
     public static void LocationHelper(BDLocationListener listener) {
-
         LocationClient locationClient = new LocationClient(MyApplication.getContext());
         LocationClientOption option = new LocationClientOption();
         //可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
@@ -155,6 +142,14 @@ public class Utils {
         locationClient.requestLocation();
     }
 
+    public static String createAcacheKey(Object... param) {
+        String key = "";
+        for (Object o : param) {
+            key += "-" + o;
+        }
+        return key.replaceFirst("-", "");
+    }
+
 
     public static String getPhone() {
         return PrefUtils.getValue(AppUtils.getAppContext(), GlobaData.PHONE);
@@ -192,108 +187,24 @@ public class Utils {
         return s;
     }
 
-//    public static void sortByDistance(List<LocationInfor> locationInfors, MyRecyAdapter adapter,
-//                                      LocationInfor user) {
-//        double x = user.getLatitude();
-//        double y = user.getLongtitude();
-//        LocationInfor[] infors = new LocationInfor[]{};
-//        infors = locationInfors.toArray(infors);
-//        for (int i = 0; i < locationInfors.size(); i++) {
-//            for (int j = i + 1; j < locationInfors.size(); j++) {
-//                if (GetDistance(x, y, infors[i].getLatitude(), infors[i].getLongtitude()) <
-//                        GetDistance(x, y, infors[j].getLatitude(), infors[j].getLongtitude())) {
-//                    LocationInfor temp = infors[i];
-//                    infors[i] = infors[j];
-//                    infors[j] = temp;
-//                }
-//            }
-//        }
-//        List<LocationInfor> s = new ArrayList<>();
-//        for (int i = 0; i < infors.length; i++) {
-//            s.add(infors[i]);
-//        }
-//        adapter.setLocationInforList(s);
-//    }
 
-
-    public static String formatDate(Date date) {
-        try {
-
-//            Date date = sdf.parse(time);
-            long tm = date.getTime();
-            long current = System.currentTimeMillis();
-            long s = current - tm;
-            if (s >= 0 && s < 60) {
-                return s + "秒前";
-            } else if (s >= 60 && s < 600) {
-                int minute = (int) s / 60;
-                return minute + "分钟前";
-            } else {
-                DateFormat format = new SimpleDateFormat("dd号 hh:mm");
-                return format.format(date);
+    public static String formatChineseDate(long timeMillise) {
+        long diff = System.currentTimeMillis() - timeMillise;
+        Date date = new Date(timeMillise);
+        int munite = (int) diff / (1000 * 60);
+        if (munite == 0) {
+            int seconds = (int) diff / 1000;
+            return String.format("%02d秒前", seconds);
+        } else if (munite >= 100) {
+            int hour = (int) diff / (1000 * 60 * 60);
+            if (hour >= 23) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd");
+                return dateFormat.format(date);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            return String.format("%02d小时前", hour);
         }
-        return null;
-
+        return String.format("%02d分钟前", munite);
     }
-
-    public static boolean isBefore(String time1, String time2) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        //将字符串形式的时间转化为Date类型的时间
-        try {
-
-            Date a = sdf.parse(time1);
-            Date b = sdf.parse(time2);
-            if (a.before(b))
-                return true;
-            else
-                return false;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //Date类的一个方法，如果a早于b返回true，否则返回false
-        return false;
-
-    }
-//
-//    public static void sortByDate(List<LocationInfor> locationInfors, MyRecyAdapter recyAdapter) {
-//        LocationInfor[] infors = new LocationInfor[]{};
-//        infors = locationInfors.toArray(infors);
-//        for (int i = 0; i < locationInfors.size(); i++) {
-//            for (int j = i + 1; j < locationInfors.size(); j++) {
-//                if (isBefore(infors[i].getTime(), infors[j].getTime())) {
-//                    LocationInfor temp = infors[i];
-//                    infors[i] = infors[j];
-//                    infors[j] = temp;
-//                }
-//            }
-//        }
-//        List<LocationInfor> s = new ArrayList<>();
-//        for (int i = 0; i < infors.length; i++) {
-//            s.add(infors[i]);
-//        }
-//        recyAdapter.setLocationInforList(s);
-//    }
-
-//    public static void sortGril(List<LocationInfor> locationInfors, MyRecyAdapter recyAdapter) {
-//        LocationInfor[] infors = new LocationInfor[]{};
-//        infors = locationInfors.toArray(infors);
-//        List<LocationInfor> s = new ArrayList<>();
-//        List<LocationInfor> temp = new ArrayList<>();
-//        for (int i = 0; i < locationInfors.size(); i++) {
-//            if (infors[i].getSex() == -1) {
-//                s.add(infors[i]);
-//            } else {
-//                temp.add(infors[i]);
-//            }
-//        }
-//        for (LocationInfor locationInfor : temp) {
-//            s.add(locationInfor);
-//        }
-//        recyAdapter.setLocationInforList(s);
-//    }
 
 
 }

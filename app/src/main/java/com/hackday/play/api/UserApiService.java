@@ -27,10 +27,10 @@ public interface UserApiService {
     @POST("user")
     Observable<StatusInfo> register(@Body RequestBody body);
 
-    @POST("user/<phone>")
+    @POST("user/{phone}")
     Observable<LoginResponse> login(@Path("phone") String phone, @Body RequestBody body);
 
-    @GET("user/<phone>")
+    @GET("user/{phone}")
     Observable<Response<UserInfo>> getUserInfo(@Path("phone") String phone, @Header("token")
             String token);
 
@@ -46,5 +46,9 @@ public interface UserApiService {
     @PUT("needs/{id}")
     Observable<NeedInfo> changeNeedInfo(@Header("token") String token, @Path("id") String id,
                                         @Body RequestBody body);
+
+    @GET("user/edit/{phone}")
+    Observable<UserInfo> changeLoveLevel(@Header("token") String token, @Path("phone") String
+            phone);
 
 }

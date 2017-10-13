@@ -11,7 +11,7 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.model.LatLng;
 import com.hackday.play.R;
-import com.hackday.play.data.LocationInfor;
+import com.hackday.play.data.NeedInfo;
 import com.hackday.play.utils.MyActivityManager;
 import com.hackday.play.utils.Utils;
 
@@ -19,12 +19,12 @@ public class MapActivity extends AppCompatActivity {
 
     private MapView mapView;
     private BaiduMap baiduMap;
-    private LocationInfor infor;
+    private NeedInfo infor;
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 0x123) {
-                LatLng latLng = new LatLng(infor.getLatitude(), infor.getLongtitude());
+                LatLng latLng = new LatLng(infor.getLatitude(), infor.getLongitude());
                 MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(latLng);
                 baiduMap.animateMapStatus(update);
                 mapView.invalidate();
@@ -39,7 +39,7 @@ public class MapActivity extends AppCompatActivity {
         MyActivityManager.getInstance().pushActivity(MapActivity.this);
         mapView = (MapView) findViewById(R.id.baidu_map);
         baiduMap = mapView.getMap();
-        infor = new LocationInfor();
-        Utils.getLocation(infor, handler);
+        infor = new NeedInfo();
+        Utils.getLocation(infor, handler, false);
     }
 }

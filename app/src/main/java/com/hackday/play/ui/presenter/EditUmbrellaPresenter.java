@@ -3,6 +3,7 @@ package com.hackday.play.ui.presenter;
 import com.hackday.play.api.UserApi;
 import com.hackday.play.data.NeedInfo;
 import com.hackday.play.ui.contract.EditUmbrellaContract;
+import com.hackday.play.utils.RxUtil;
 import com.hackday.play.utils.Utils;
 
 import rx.Observable;
@@ -29,11 +30,13 @@ public class EditUmbrellaPresenter implements EditUmbrellaContract.Presenter {
         if (mView.getMode() == 0) {
             mView.showEditView();
         } else {
-
-            mView.showBrowseView();
+            mView.showProgressDialog();
+            String key = Utils.createAcacheKey("get_need_info", mView.getNeedID());
             Observable<NeedInfo> observable = UserApi.getInstance().getNeedInfo(mView
-                    .getNeedID(), Utils.getToken());
-            observable.observeOn(AndroidSchedulers.mainThread())
+                    .getNeedID(), Utils.getToken()).compose(RxUtil.<NeedInfo>rxCacheBeanHelper
+                    (key));
+            Observable.concat(observable, (Observable<NeedInfo>) RxUtil.rxCreateDiskObservable(key,
+                    NeedInfo.class)).observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe(new Observer<NeedInfo>() {
                         @Override
@@ -48,22 +51,46 @@ public class EditUmbrellaPresenter implements EditUmbrellaContract.Presenter {
 
                         @Override
                         public void onNext(NeedInfo needInfo) {
+                            switch (needInfo.getSex()) {
+                                case "男":
+                                    mView.setBackGround(0);
+                                    break;
+                                case "女":
+                                    mView.setBackGround(1);
+                                    break;
+                                case "秘密":
+                                    mView.setBackGround(2);
+                                    break;
+                                default:
+                                    break;
+                            }
                             if (Utils.getPhone().equals(mView.getCreator())) {
                                 switch (needInfo.getStatus()) {
                                     case 0:
-                                        mView.showWaitingView();
+                                        mView.showWaitingView(needInfo);
                                         break;
                                     case 1:
-                                        mView.showRunningView();
+                                        mView.showRunningView(needInfo);
                                         break;
                                     case 2:
-                                        mView.showFinishedView();
+                                        mView.showFinishedView(needInfo);
                                         break;
                                     default:
                                         break;
                                 }
+                                mView.dismissProgressDialog();
                             } else {
-                                mView.showOtherView(needInfo);
+                                if (Utils.getPhone().equals(needInfo
+                                        .getHelper_phone())) {
+                                    if (needInfo.getStatus() == 1) {
+                                        mView.showRunningView(needInfo);
+                                    } else if (needInfo.getStatus() == 2) {
+                                        mView.showFinishedView(needInfo);
+                                    }
+                                } else if (needInfo.getStatus() == 0) {
+                                    mView.showHelpView(needInfo);
+                                }
+                                mView.dismissProgressDialog();
                             }
 
                         }
@@ -96,7 +123,7 @@ public class EditUmbrellaPresenter implements EditUmbrellaContract.Presenter {
 
                     @Override
                     public void onNext(NeedInfo needInfo) {
-
+                        mView.showRunningView(needInfo);
                     }
                 });
     }

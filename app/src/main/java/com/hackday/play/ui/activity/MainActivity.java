@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -24,8 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hackday.play.R;
-import com.hackday.play.data.GlobaData;
-import com.hackday.play.data.LocationInfor;
+import com.hackday.play.data.NeedInfo;
 import com.hackday.play.service.NotificitionService;
 import com.hackday.play.ui.adapters.MyFragAdapter;
 import com.hackday.play.ui.base.BaseActivity;
@@ -34,23 +31,19 @@ import com.hackday.play.ui.contract.MainContract;
 import com.hackday.play.ui.fragments.MyFragment;
 import com.hackday.play.ui.fragments.SquareFragment;
 import com.hackday.play.ui.presenter.MainPresenter;
-import com.hackday.play.utils.PrefUtils;
 import com.hackday.play.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.hackday.play.utils.PrefUtils.putValue;
-
 public class MainActivity extends BaseActivity implements MainContract.View {
 
-    private ImageView user_infor, sort;
+    private ImageView user_avatar, sort;
     private DrawerLayout drawerLayout;
     private RelativeLayout drawer;
     private TabLayout tabLayout;
     private TabLayout.Tab square, umbrella;
     private static final String TAG = "MainActivity";
-    private boolean sortmenu = false;
     private ViewPager viewPager;
     private MyFragAdapter myFragAdapter;
     private View view_square, view_umbrella;
@@ -59,8 +52,9 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     private List<Fragment> fragmentList = new ArrayList<>();
     private SquareFragment fragment;
     private TextView user_name, user_love_level;
-    private LocationInfor infor = new LocationInfor();
+    private NeedInfo infor = new NeedInfo();
     private RelativeLayout location_info;
+    private TextView user_location, user_location_detail, user_phone;
 
     private MainContract.Presenter mPresenter;
 
@@ -68,9 +62,8 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 0x123) {
-                putValue(MainActivity.this, GlobaData.LATITUDE, "" + infor.getLatitude());
-                PrefUtils.putValue(MainActivity.this, GlobaData.LONGTITUDE, "" + infor
-                        .getLongtitude());
+                user_location.setText(infor.getLocation());
+                user_location_detail.setText(infor.getDesc());
             }
         }
     };
@@ -80,7 +73,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         mPresenter = new MainPresenter(this);
         super.onCreate(savedInstanceState);
         startService(new Intent(MainActivity.this, NotificitionService.class));
-        Utils.getLocation(infor, handler);
+        Utils.getLocation(infor, handler, true);
     }
 
     @Override
@@ -100,7 +93,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     @Override
     protected void initView() {
-        user_infor = (ImageView) findViewById(R.id.user_infor);
+        user_avatar = (ImageView) findViewById(R.id.user_infor);
         add = (FloatingActionButton) findViewById(R.id.add_new);
         avatar = (ImageView) findViewById(R.id.avatar);
         sort = (ImageView) findViewById(R.id.sort_list);
@@ -108,8 +101,11 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         user_name = (TextView) findViewById(R.id.user_name);
         user_love_level = (TextView) findViewById(R.id.user_love_level_text_top);
         location_info = (RelativeLayout) findViewById(R.id.user_location_infor);
+        user_location = (TextView) findViewById(R.id.user_location_infor_text_top);
+        user_location_detail = (TextView) findViewById(R.id.user_location_detail);
+        user_phone = (TextView) findViewById(R.id.user_phone);
         drawer = (RelativeLayout) findViewById(R.id.drawer);
-        user_infor.setOnClickListener(new View.OnClickListener() {
+        user_avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerLayout.openDrawer(drawer);
@@ -135,8 +131,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         view_umbrella = getLayoutInflater().inflate(R.layout.view_umbrella, null);
         view_square.setBackground(getResources().getDrawable(R.drawable.iconhall));
         view_umbrella.setBackground(getResources().getDrawable(R.drawable.icontaskc));
-        InitTab();
-        InitData();
+        initTab();
     }
 
     @Override
@@ -195,20 +190,8 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        InitData();
-    }
 
-    private void InitData() {
-        user_name.setText(PrefUtils.getValue(MainActivity.this, GlobaData.NICKNAME));
-        user_love_level.setText("" + PrefUtils.getIntValue(MainActivity.this, GlobaData
-                .LOVE_LEVEL));
-    }
-
-
-    private void InitTab() {
+    private void initTab() {
         square = tabLayout.getTabAt(0);
         umbrella = tabLayout.getTabAt(1);
         square.setCustomView(view_square);
@@ -222,7 +205,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     @Override
     public void showMyToast(String description) {
-
+        showToast(description);
     }
 
     @Override
@@ -241,6 +224,21 @@ public class MainActivity extends BaseActivity implements MainContract.View {
             }
         });
         dialog.show();
+    }
+
+    @Override
+    public void setUserName(String name) {
+        user_name.setText(name);
+    }
+
+    @Override
+    public void setUserLove_Level(int love_level) {
+        user_love_level.setText(String.valueOf(love_level));
+    }
+
+    @Override
+    public void setUserPhone(String phone) {
+        user_phone.setText(phone);
     }
 
 
@@ -282,7 +280,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
             });
             RelativeLayout near = (RelativeLayout) conentView.findViewById(R.id.near_me);
             near.setOnClickListener(new View.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onClick(View v) {
                     fragment.sortByDistance();
@@ -291,7 +288,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
             });
             RelativeLayout time = (RelativeLayout) conentView.findViewById(R.id.sort_time);
             time.setOnClickListener(new View.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onClick(View v) {
                     fragment.sortByDate();
@@ -300,7 +296,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
             });
             RelativeLayout girl = (RelativeLayout) conentView.findViewById(R.id.sort_girl);
             girl.setOnClickListener(new View.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onClick(View v) {
                     fragment.sortGirl();

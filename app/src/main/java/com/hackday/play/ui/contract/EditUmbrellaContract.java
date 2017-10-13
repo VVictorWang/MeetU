@@ -19,18 +19,22 @@ public interface EditUmbrellaContract {
 
         String getNeedID();
 
-        void showOtherView(NeedInfo needInfo);
+        void showHelpView(NeedInfo needInfo);
 
-        void showFinishedView();
+        void showFinishedView(NeedInfo needInfo);
 
-        void showRunningView();
+        void showRunningView(NeedInfo needInfo);
 
-        void showWaitingView();
+        void showWaitingView(NeedInfo needInfo);
 
+        void showProgressDialog();
+
+        void dismissProgressDialog();
+
+        void setBackGround(int sex);
 
         void showEditView();
 
-        void showBrowseView();
     }
 
     interface Presenter extends BasePresenter {

@@ -18,7 +18,7 @@ import android.util.Log;
 
 import com.hackday.play.R;
 import com.hackday.play.data.GlobaData;
-import com.hackday.play.data.LocationInfor;
+import com.hackday.play.data.NeedInfo;
 import com.hackday.play.ui.activity.MainActivity;
 import com.hackday.play.utils.PrefUtils;
 import com.hackday.play.utils.Utils;
@@ -38,7 +38,7 @@ public class NotificitionService extends Service implements SensorEventListener 
     private NotificationManager notificationManager;
     private List<Long> timeList = new ArrayList<>();
     private List<Long> stepList = new ArrayList<>();
-    private LocationInfor locationInfor = new LocationInfor();
+    private NeedInfo mNeedInfo = new NeedInfo();
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -47,7 +47,7 @@ public class NotificitionService extends Service implements SensorEventListener 
                         GlobaData.LATITUDE));
                 double previousy = Double.parseDouble(PrefUtils.getValue(getApplicationContext(),
                         GlobaData.LONGTITUDE));
-                if (Utils.GetDistance(locationInfor.getLatitude(), locationInfor.getLongtitude(),
+                if (Utils.GetDistance(mNeedInfo.getLatitude(), mNeedInfo.getLongitude(),
                         previousx, previousy) < 10) {
 
                     if (Status == AT_HOME) {
@@ -153,7 +153,7 @@ public class NotificitionService extends Service implements SensorEventListener 
                 Message message = new Message();
                 message.what = 0x123;
                 handler.sendMessage(message);
-                Utils.getLocation(locationInfor, handler);
+                Utils.getLocation(mNeedInfo, handler, false);
             }
         }
     }

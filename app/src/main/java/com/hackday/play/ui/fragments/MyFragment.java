@@ -40,11 +40,11 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         tab2.setOnClickListener(this);
         tab3.setOnClickListener(this);
 
-        SquareFragment fragment = SquareFragment.newInstance(SquareFragment.STATUS_SHARED);
         SquareFragment fragment1 = SquareFragment.newInstance(SquareFragment.STATUS_CREATED);
+        SquareFragment fragment = SquareFragment.newInstance(SquareFragment.STATUS_SHARED);
         SquareFragment fragment2 = SquareFragment.newInstance(SquareFragment.STATUS_FINISHED);
-        fragmentList.add(fragment);
         fragmentList.add(fragment1);
+        fragmentList.add(fragment);
         fragmentList.add(fragment2);
         myFragAdapter = new MyFragAdapter(getChildFragmentManager(), fragmentList);
         viewPager.setAdapter(myFragAdapter);

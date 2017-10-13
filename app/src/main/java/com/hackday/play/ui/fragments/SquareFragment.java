@@ -1,9 +1,7 @@
 package com.hackday.play.ui.fragments;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,15 +20,19 @@ import com.hackday.play.utils.PrefUtils;
 import com.hackday.play.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func2;
+import rx.schedulers.Schedulers;
 
 
 /**
  * Created by wuhanson on 2017/6/3.
  */
-public class SquareFragment extends Fragment implements SquareContract.View{
+public class SquareFragment extends Fragment implements SquareContract.View {
     public static final int STATUS_ALL = 0;
     public static final int STATUS_SHARED = 1;
     public static final int STATUS_CREATED = 2;
@@ -80,52 +82,102 @@ public class SquareFragment extends Fragment implements SquareContract.View{
 //        refreshLayout.setRefreshing(true);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void sortByDistance() {
-        List<NeedInfo> sorts = mNeedInfos.stream().sorted(new Comparator<NeedInfo>() {
+        Observable.from(mNeedInfos).observeOn(AndroidSchedulers.mainThread()).subscribeOn
+                (Schedulers.io())
+                .toSortedList(new Func2<NeedInfo, NeedInfo, Integer>() {
+                    @Override
+                    public Integer call(NeedInfo needInfo, NeedInfo needInfo2) {
+                        float userLa = PrefUtils.getFloatValue(getActivity(), GlobaData.LATITUDE);
+                        float userLon = PrefUtils.getFloatValue(getActivity(), GlobaData
+                                .LONGTITUDE);
+                        if (Utils.GetDistance(needInfo.getLatitude(), needInfo.getLongitude(),
+                                userLa, userLon) <
+                                Utils.GetDistance(needInfo2.getLatitude(), needInfo2.getLongitude
+                                        (), userLa, userLon)) {
+                            return 1;
+                        } else {
+                            return -1;
+                        }
+                    }
+                }).subscribe(new Observer<List<NeedInfo>>() {
             @Override
-            public int compare(NeedInfo o1, NeedInfo o2) {
-                float userLa = PrefUtils.getFloatValue(getActivity(), GlobaData.LATITUDE);
-                float userLon = PrefUtils.getFloatValue(getActivity(), GlobaData.LONGTITUDE);
-                if (Utils.GetDistance(o1.getLatitude(), o1.getLongitude(), userLa, userLon) <
-                        Utils.GetDistance(o2.getLatitude(), o2.getLongitude(), userLa, userLon)) {
-                    return 1;
-                } else {
-                    return -1;
-                }
+            public void onCompleted() {
+
             }
-        }).collect(Collectors.toList());
-        myRecyAdapter.setLocationInforList(sorts);
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(List<NeedInfo> needInfos) {
+                myRecyAdapter.setLocationInforList(needInfos);
+            }
+        });
+
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void sortByDate() {
-        List<NeedInfo> sorts = mNeedInfos.stream().sorted(new Comparator<NeedInfo>() {
+        Observable.from(mNeedInfos).toSortedList(new Func2<NeedInfo, NeedInfo, Integer>() {
             @Override
-            public int compare(NeedInfo o1, NeedInfo o2) {
-                if (o1.getCreate_time() < o2.getCreate_time()) {
+            public Integer call(NeedInfo needInfo, NeedInfo needInfo2) {
+                if (needInfo.getCreate_time() < needInfo2.getCreate_time()) {
                     return -1;
                 } else {
                     return 1;
                 }
             }
-        }).collect(Collectors.toList());
-        myRecyAdapter.setLocationInforList(sorts);
+        }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+                .subscribe(new Observer<List<NeedInfo>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<NeedInfo> needInfos) {
+                        myRecyAdapter.setLocationInforList(needInfos);
+                    }
+                });
+
+
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void sortGirl() {
-        List<NeedInfo> sorts = mNeedInfos.stream().sorted(new Comparator<NeedInfo>() {
+        Observable.from(mNeedInfos).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers
+                .mainThread()).toSortedList(new Func2<NeedInfo, NeedInfo, Integer>() {
             @Override
-            public int compare(NeedInfo o1, NeedInfo o2) {
-                if (o2.getSex().equals("女")) {
-                    return -1;
-                } else {
+            public Integer call(NeedInfo needInfo, NeedInfo needInfo2) {
+                if (needInfo2.getSex().equals("女")) {
                     return 1;
+                } else {
+                    return -1;
                 }
             }
-        }).collect(Collectors.toList());
-        myRecyAdapter.setLocationInforList(sorts);
+        }).subscribe(new Observer<List<NeedInfo>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(List<NeedInfo> needInfos) {
+                myRecyAdapter.setLocationInforList(needInfos);
+            }
+        });
+
     }
 
     @Override
@@ -142,6 +194,11 @@ public class SquareFragment extends Fragment implements SquareContract.View{
     public void showList(List<NeedInfo> needInfos) {
         myRecyAdapter.setLocationInforList(needInfos);
         mNeedInfos = needInfos;
+    }
+
+    @Override
+    public void disableRefresh() {
+        refreshLayout.setRefreshing(false);
     }
 
     @Override

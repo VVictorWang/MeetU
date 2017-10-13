@@ -26,13 +26,13 @@ public class NeedInfo {
     private String _id;
     private String creator_phone;
     private String desc;
-    private int continue_time;
+    private String continue_time;
     private String sex;
     private double longitude;
     private double latitude;
     private String location;
     private String destination;
-    private long create_time;
+    private long created_time;
     private int status;
     private String helper_phone;
 
@@ -60,11 +60,11 @@ public class NeedInfo {
         this.desc = desc;
     }
 
-    public int getContinue_time() {
+    public String getContinue_time() {
         return continue_time;
     }
 
-    public void setContinue_time(int continue_time) {
+    public void setContinue_time(String continue_time) {
         this.continue_time = continue_time;
     }
 
@@ -109,11 +109,11 @@ public class NeedInfo {
     }
 
     public long getCreate_time() {
-        return create_time;
+        return created_time;
     }
 
     public void setCreate_time(long create_time) {
-        this.create_time = create_time;
+        this.created_time = create_time;
     }
 
     public int getStatus() {

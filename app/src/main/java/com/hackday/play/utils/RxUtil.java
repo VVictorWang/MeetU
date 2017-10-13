@@ -20,15 +20,7 @@ import rx.schedulers.Schedulers;
  */
 
 public class RxUtil {
-    public static <T> Observable.Transformer<T, T> rxSchedulerHelper() {
-        return new Observable.Transformer<T, T>() {
-            @Override
-            public Observable<T> call(Observable<T> tObservable) {
-                return tObservable.subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
-            }
-        };
-    }
+
 
     public static <T> Observable rxCreateDiskObservable(final String key, final Class<T> tClass) {
         return Observable.create(new Observable.OnSubscribe<String>() {

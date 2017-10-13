@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawerlayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.hackday.play.ui.activity.MainActivity">
+                                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                                        xmlns:tools="http://schemas.android.com/tools"
+                                        android:id="@+id/drawerlayout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        tools:context="com.hackday.play.ui.activity.MainActivity">
 
     <RelativeLayout
         android:id="@+id/toolbar"
@@ -19,7 +19,7 @@
             android:layout_height="20dp"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="8dp"
-            android:src="@drawable/user" />
+            android:src="@drawable/user"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,7 +28,7 @@
             android:layout_marginTop="7dp"
             android:text="MeetU"
             android:textColor="@color/blue"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
         <ImageView
             android:id="@+id/sort_list"
@@ -37,7 +37,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="12dp"
             android:layout_marginTop="8dp"
-            android:src="@drawable/sort" />
+            android:src="@drawable/sort"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -55,7 +55,7 @@
             <android.support.v4.view.ViewPager
                 android:id="@+id/mViewPager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/add_new"
@@ -66,7 +66,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@color/blue"
-                android:src="@drawable/addfloat" />
+                android:src="@drawable/addfloat"/>
         </RelativeLayout>
 
 
@@ -79,14 +79,15 @@
             app:tabGravity="fill"
             app:tabIndicatorHeight="0dp"
             app:tabMode="fixed"
-            app:tabPaddingStart="0dp" />
+            app:tabPaddingStart="0dp"/>
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/drawer"
-        android:layout_width="192dp"
+        android:layout_width="200dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:clickable="true"
         android:background="@drawable/user_back">
 
         <ImageView
@@ -94,7 +95,7 @@
             android:layout_height="72dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="108dp"
-            android:src="@drawable/headedge" />
+            android:src="@drawable/headedge"/>
 
         <ImageView
             android:id="@+id/avatar"
@@ -102,9 +103,10 @@
             android:layout_height="64dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="112dp"
-            android:src="@drawable/headtem" />
+            android:src="@drawable/headtem"/>
 
         <TextView
+            android:id="@+id/user_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/avatar"
@@ -112,14 +114,14 @@
             android:layout_marginTop="12dp"
             android:text="NO.001"
             android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:textSize="12sp"/>
 
         <!--<ImageView-->
-            <!--android:layout_width="130dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="32dp"-->
-            <!--android:layout_marginTop="231dp"-->
-            <!--android:src="@drawable/user_nameback" />-->
+        <!--android:layout_width="130dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="32dp"-->
+        <!--android:layout_marginTop="231dp"-->
+        <!--android:src="@drawable/user_nameback" />-->
 
         <TextView
             android:id="@+id/user_name"
@@ -127,18 +129,18 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="245dp"
+            android:background="@drawable/user_nameback"
+            android:gravity="center"
             android:text="我叫啥好呢"
             android:textColor="@color/white"
-            android:background="@drawable/user_nameback"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
 
         <RelativeLayout
             android:id="@+id/user_location_infor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:clickable="true"
-            android:layout_below="@+id/user_name">
+            android:layout_below="@+id/user_name"
+            android:clickable="true">
 
             <ImageView
                 android:id="@+id/user_location_infor_image"
@@ -146,7 +148,7 @@
                 android:layout_height="32dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="40dp"
-                android:src="@drawable/iconplace32" />
+                android:src="@drawable/iconplace32"/>
 
             <TextView
                 android:id="@+id/user_location_infor_text_top"
@@ -157,9 +159,10 @@
                 android:layout_toRightOf="@+id/user_location_infor_image"
                 android:text="华中科技大学"
                 android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
 
             <TextView
+                android:id="@+id/user_location_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/user_location_infor_text_top"
@@ -168,7 +171,7 @@
                 android:layout_toRightOf="@+id/user_location_infor_image"
                 android:text="东校区"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -176,8 +179,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:clickable="true"
-            android:layout_below="@+id/user_location_infor">
+            android:layout_below="@+id/user_location_infor"
+            android:clickable="true">
 
             <ImageView
                 android:id="@+id/user_love_level_image"
@@ -185,7 +188,7 @@
                 android:layout_height="32dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="40dp"
-                android:src="@drawable/iconlove32" />
+                android:src="@drawable/iconlove32"/>
 
             <TextView
                 android:id="@+id/user_love_level_text_top"
@@ -196,7 +199,7 @@
                 android:layout_toRightOf="@+id/user_love_level_image"
                 android:text="88"
                 android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -207,7 +210,7 @@
                 android:layout_toRightOf="@+id/user_love_level_image"
                 android:text="爱心值"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
         </RelativeLayout>
     </RelativeLayout>
 </android.support.v4.widget.DrawerLayout>
