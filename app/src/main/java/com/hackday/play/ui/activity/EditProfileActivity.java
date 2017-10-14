@@ -45,6 +45,8 @@ public class EditProfileActivity extends BaseActivity {
     private Button confirm;
     private RelativeLayout password_layout;
     private NeedInfo mNeedInfo = new NeedInfo();
+    private boolean isEdit = false;
+    private String old_phone = "";
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -89,6 +91,8 @@ public class EditProfileActivity extends BaseActivity {
             editphone.setText(PrefUtils.getValue(getActivity(), GlobaData.PHONE));
             editname.setText(PrefUtils.getValue(getActivity(), GlobaData.NICKNAME));
             password_layout.setVisibility(View.GONE);
+            isEdit = true;
+            old_phone = editphone.getText().toString();
         }
     }
 
@@ -113,9 +117,16 @@ public class EditProfileActivity extends BaseActivity {
                 userInfo.setPhone(phone);
                 userInfo.setQq(qq);
                 userInfo.setNickname(name);
+
                 UserApi api = UserApi.getInstance();
-                Observable<StatusInfo> observable = api.register(name, phone,
-                        password, qq);
+                Observable<StatusInfo> observable;
+                if (!isEdit) {
+                    observable = api.register(name, phone,
+                            password, qq);
+                } else {
+                    observable = api.editUser(old_phone, Utils.getToken(),
+                            name, phone, qq);
+                }
                 mSubscription = observable.observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
                         .subscribe(new Observer<StatusInfo>() {
@@ -132,15 +143,26 @@ public class EditProfileActivity extends BaseActivity {
                             @Override
                             public void onNext(StatusInfo statusInfo) {
                                 if (statusInfo.getStatus() == 1) {
-                                    showToast("注册成功");
+                                    if (!isEdit) {
+                                        showToast("注册成功");
+                                    } else
+                                        showToast("修改成功");
+
                                     Utils.updateUserInfo(userInfo);
-                                    sNotifyLogin.notify(phone, password);
+                                    if (!isEdit) {
+                                        PrefUtils.putValue(getActivity(), "password", password);
+                                        sNotifyLogin.notify(phone, password);
+                                    } else {
+                                        sNotifyLogin.notify(phone, PrefUtils.getValue(getActivity
+                                                (), "password"));
+                                    }
                                     ActivityManager.finishActivity(getActivity());
                                 } else {
-                                    showToast("手机号已注册");
+                                    showToast("失败");
                                 }
                             }
                         });
+
             }
         });
     }

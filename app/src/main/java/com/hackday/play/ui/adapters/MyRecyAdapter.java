@@ -2,31 +2,42 @@ package com.hackday.play.ui.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hackday.play.R;
+import com.hackday.play.api.UserApi;
 import com.hackday.play.data.NeedInfo;
+import com.hackday.play.data.StatusInfo;
 import com.hackday.play.ui.activity.EditUmbrellaActivity;
 import com.hackday.play.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func2;
+import rx.schedulers.Schedulers;
+
 /**
  * Created by wuhanson on 2017/6/3.
  */
 
 public class MyRecyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<NeedInfo> mNeedInfos;
 
+    private List<NeedInfo> mNeedInfos;
     private static int CONTENT_TYPE = 0;
     private static int FOOT_TYPE = 1;
     private static int EMPTY_TYPE = 2;
@@ -39,10 +50,40 @@ public class MyRecyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.context = context;
     }
 
-    public void setLocationInforList(List<NeedInfo> needInfos) {
+    public void setLocationInforList(List<NeedInfo> needInfos, boolean sort) {
         mNeedInfos.clear();
-        mNeedInfos.addAll(needInfos);
-        notifyDataSetChanged();
+        if (sort) {
+            Observable.from(needInfos).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .toSortedList(new Func2<NeedInfo, NeedInfo, Integer>() {
+                        @Override
+                        public Integer call(NeedInfo needInfo, NeedInfo needInfo2) {
+                            if (needInfo.getCreate_time() < needInfo2.getCreate_time()) {
+                                return 1;
+                            }
+                            return -1;
+                        }
+                    }).subscribe(new Observer<List<NeedInfo>>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onNext(List<NeedInfo> needInfos) {
+                    mNeedInfos.addAll(needInfos);
+                    notifyDataSetChanged();
+                }
+            });
+        } else {
+            mNeedInfos.addAll(needInfos);
+            notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -69,11 +110,12 @@ public class MyRecyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (mNeedInfos.size() != 0) {
                 NeedInfo need = mNeedInfos.get(i);
                 ((MyViewHolder) mViewHolder).location.setText(need.getLocation());
-                ((MyViewHolder) mViewHolder).remain_time.setText(need.getContinue_time()+"内");
+                ((MyViewHolder) mViewHolder).remain_time.setText(need.getContinue_time() + "内");
                 ((MyViewHolder) mViewHolder).title.setText(need.getDesc());
                 ((MyViewHolder) mViewHolder).create_time.setText(Utils.formatChineseDate(need
                         .getCreate_time()));
-                ((MyViewHolder) mViewHolder).cardView.setOnClickListener(new View.OnClickListener() {
+                ((MyViewHolder) mViewHolder).cardView.setOnClickListener(new View.OnClickListener
+                        () {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent();
@@ -82,6 +124,58 @@ public class MyRecyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         intent.putExtra("id", need.get_id());
                         intent.putExtra("Mode", 1);
                         context.startActivity(intent);
+                    }
+                });
+                ((MyViewHolder) mViewHolder).cardView.setOnLongClickListener(new View
+                        .OnLongClickListener() {
+
+                    @Override
+                    public boolean onLongClick(View v) {
+                        View view = LayoutInflater.from(context).inflate(R.layout.alert_dialog2,
+                                null);
+                        ((TextView) view.findViewById(R.id.alert_dialog_text)).setText("真的要删除吗?");
+                        Button positive = (Button) view.findViewById(R.id.alert_dialog_positive);
+                        Button cancel = (Button) view.findViewById(R.id.alert_dialog_negative);
+                        final AlertDialog dialog = new AlertDialog.Builder(context).setView(view)
+                                .create();
+                        dialog.show();
+                        positive.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Observable<StatusInfo> observable = UserApi.getInstance()
+                                        .deleteNeed(need.get_id(), Utils.getToken());
+                                observable.observeOn(AndroidSchedulers.mainThread())
+                                        .subscribeOn(Schedulers.io())
+                                        .subscribe(new Observer<StatusInfo>() {
+                                            @Override
+                                            public void onCompleted() {
+                                                dialog.dismiss();
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable e) {
+
+                                            }
+
+                                            @Override
+                                            public void onNext(StatusInfo statusInfo) {
+                                                if (statusInfo.getStatus() == 1) {
+                                                    Toast.makeText(context, "删除成功", Toast
+                                                            .LENGTH_SHORT);
+                                                    mNeedInfos.remove(need);
+                                                    notifyDataSetChanged();
+                                                }
+                                            }
+                                        });
+                            }
+                        });
+                        cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                        return true;
                     }
                 });
                 switch (need.getSex()) {
@@ -115,7 +209,7 @@ public class MyRecyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public int getItemViewType(int position) {
         if (mNeedInfos.size() == 0)
             return EMPTY_TYPE;
-        else if (position == getItemCount()) {
+        else if (position == getItemCount() - 1) {
             return FOOT_TYPE;
         } else
             return CONTENT_TYPE;
@@ -124,7 +218,7 @@ public class MyRecyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public int getItemCount() {
         if (mNeedInfos.size() != 0)
-            return mNeedInfos.size();
+            return mNeedInfos.size() + 1;
         else {
             return 1;
         }
@@ -147,6 +241,7 @@ public class MyRecyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             tvLoadMore.setVisibility(View.VISIBLE);
         }
     }
+
 
     class FooterViewHolder extends RecyclerView.ViewHolder {
         private TextView tvLoadMore;

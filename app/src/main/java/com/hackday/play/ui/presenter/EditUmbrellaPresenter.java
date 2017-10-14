@@ -73,7 +73,7 @@ public class EditUmbrellaPresenter implements EditUmbrellaContract.Presenter {
                                         mView.showRunningView(needInfo);
                                         break;
                                     case 2:
-                                        mView.showFinishedView(needInfo);
+                                        mView.showFinishedView(needInfo, true);
                                         break;
                                     default:
                                         break;
@@ -85,10 +85,17 @@ public class EditUmbrellaPresenter implements EditUmbrellaContract.Presenter {
                                     if (needInfo.getStatus() == 1) {
                                         mView.showRunningView(needInfo);
                                     } else if (needInfo.getStatus() == 2) {
-                                        mView.showFinishedView(needInfo);
+                                        mView.showFinishedView(needInfo, true);
                                     }
                                 } else if (needInfo.getStatus() == 0) {
-                                    mView.showHelpView(needInfo);
+                                    if (Utils.isOutdated(needInfo.getContinue_time(), needInfo
+                                            .getCreate_time())) {
+                                        mView.showHelpView(needInfo);
+                                    } else {
+                                        mView.showFinishedView(needInfo, false);
+                                    }
+                                } else if (needInfo.getStatus() == 2) {
+                                    mView.showFinishedView(needInfo, false);
                                 }
                                 mView.dismissProgressDialog();
                             }

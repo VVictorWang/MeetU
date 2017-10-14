@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +23,7 @@ import com.baidu.location.Poi;
 import com.hackday.play.R;
 import com.hackday.play.api.UserApi;
 import com.hackday.play.data.NeedInfo;
+import com.hackday.play.data.StatusInfo;
 import com.hackday.play.ui.base.BaseActivity;
 import com.hackday.play.ui.base.BasePresenter;
 import com.hackday.play.ui.contract.EditUmbrellaContract;
@@ -114,7 +116,7 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
         meetButton = (Button) findViewById(R.id.activity_add_Button_Meet);
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setTitle("正在加载中...");
-        Utils.getLocation(loca, handler, false);
+
 //        getLocation();
     }
 
@@ -189,10 +191,34 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
         textView.setText("真的要删除吗？");
         final AlertDialog dialog = new AlertDialog.Builder(this).setView(view).setCancelable
                 (true).create();
+        dialog.show();
         positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //delete
+                Observable<StatusInfo> observable = UserApi.getInstance().deleteNeed(getNeedID(),
+                        Utils.getToken());
+                observable.observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(new Observer<StatusInfo>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.d("@vics", e.getMessage());
+                            }
+
+                            @Override
+                            public void onNext(StatusInfo statusInfo) {
+                                if (statusInfo.getStatus() == 1) {
+                                    showToast("放弃成功");
+                                    dialog.dismiss();
+                                    ActivityManager.finishActivity(getActivity());
+                                }
+                            }
+                        });
             }
         });
         negative.setOnClickListener(new View.OnClickListener() {
@@ -201,7 +227,7 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
                 dialog.dismiss();
             }
         });
-        dialog.show();
+
     }
 
     @Override
@@ -235,6 +261,7 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
         showBrowseView();
         editText.setVisibility(View.INVISIBLE);
         buttonLayout.setVisibility(View.GONE);
+        button.setVisibility(View.VISIBLE);
         switch (needInfo.getSex()) {
             case "男":
                 button.setText("帮助他");
@@ -253,26 +280,32 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
             }
         });
         textView.setText(needInfo.getDesc());
+        time.setText(needInfo.getContinue_time());
+        where.setText(needInfo.getLocation());
 
     }
 
     @Override
-    public void showFinishedView(NeedInfo needInfo) {
+    public void showFinishedView(NeedInfo needInfo,boolean flag) {
         showBrowseView();
         editText.setVisibility(View.GONE);
-        button.setText("已完成");
+        if (flag) {
+            button.setText("已完成");
+        }else
+            button.setText("已结束");
         button.setVisibility(View.VISIBLE);
         button.setEnabled(false);
         buttonLayout.setVisibility(View.GONE);
         textView.setText(needInfo.getDesc());
-
+        time.setText(needInfo.getContinue_time());
+        where.setText(needInfo.getLocation());
     }
 
     @Override
     public void showRunningView(NeedInfo needInfo) {
         showBrowseView();
         editText.setVisibility(View.GONE);
-        buttonLayout.setVisibility(View.INVISIBLE);
+        buttonLayout.setVisibility(View.VISIBLE);
         button.setVisibility(View.GONE);
         meetButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -289,12 +322,15 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
             }
         });
         textView.setText(needInfo.getDesc());
+        time.setText(needInfo.getContinue_time());
+        where.setText(needInfo.getLocation());
     }
 
     @Override
     public void showWaitingView(NeedInfo needInfo) {
         showBrowseView();
         button.setVisibility(View.GONE);
+        buttonLayout.setVisibility(View.VISIBLE);
         meetButton.setText("修改");
         meetButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -309,6 +345,8 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
             }
         });
         textView.setText(needInfo.getDesc());
+        time.setText(needInfo.getContinue_time());
+        where.setText(needInfo.getLocation());
     }
 
     @Override
@@ -346,6 +384,7 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
 
     @Override
     public void showEditView() {
+        Utils.getLocation(loca, handler, false);
         textView.setVisibility(View.GONE);
         helperLayout.setVisibility(View.GONE);
         button.setText("点击求帮助OvO");
@@ -459,5 +498,8 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
         });
 
     }
+
+
+
 }
 

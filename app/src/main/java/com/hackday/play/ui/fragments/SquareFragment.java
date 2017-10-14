@@ -67,6 +67,12 @@ public class SquareFragment extends Fragment implements SquareContract.View {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.start();
+    }
+
     private void initView() {
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.square_RecyclerView);
         refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.square_SwipeRefreshLayout);
@@ -79,7 +85,7 @@ public class SquareFragment extends Fragment implements SquareContract.View {
         });
         myRecyAdapter = new MyRecyAdapter(getActivity());
         recyclerView.setAdapter(myRecyAdapter);
-//        refreshLayout.setRefreshing(true);
+        refreshLayout.setRefreshing(true);
     }
 
     public void sortByDistance() {
@@ -113,7 +119,7 @@ public class SquareFragment extends Fragment implements SquareContract.View {
 
             @Override
             public void onNext(List<NeedInfo> needInfos) {
-                myRecyAdapter.setLocationInforList(needInfos);
+                myRecyAdapter.setLocationInforList(needInfos, false);
             }
         });
 
@@ -143,7 +149,7 @@ public class SquareFragment extends Fragment implements SquareContract.View {
 
                     @Override
                     public void onNext(List<NeedInfo> needInfos) {
-                        myRecyAdapter.setLocationInforList(needInfos);
+                        myRecyAdapter.setLocationInforList(needInfos, false);
                     }
                 });
 
@@ -174,7 +180,7 @@ public class SquareFragment extends Fragment implements SquareContract.View {
 
             @Override
             public void onNext(List<NeedInfo> needInfos) {
-                myRecyAdapter.setLocationInforList(needInfos);
+                myRecyAdapter.setLocationInforList(needInfos, false);
             }
         });
 
@@ -192,7 +198,7 @@ public class SquareFragment extends Fragment implements SquareContract.View {
 
     @Override
     public void showList(List<NeedInfo> needInfos) {
-        myRecyAdapter.setLocationInforList(needInfos);
+        myRecyAdapter.setLocationInforList(needInfos, true);
         mNeedInfos = needInfos;
     }
 

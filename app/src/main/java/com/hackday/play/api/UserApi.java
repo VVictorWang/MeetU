@@ -58,6 +58,13 @@ public class UserApi {
                 ().create());
     }
 
+    public Observable<StatusInfo> editUser(String phone, String token, String name, String
+            new_phone,
+                                           String qq) {
+        return mUserApiService.editUser(phone, token, new JsonRequestBody().setUsername(name)
+                .setPhone(new_phone).setQq(qq).create());
+    }
+
     public Observable<Response<UserInfo>> getUserInfo(String phone, String token) {
         return mUserApiService.getUserInfo(phone, token);
     }
@@ -93,5 +100,9 @@ public class UserApi {
 
     public Observable<UserInfo> changeLoveLevel(String phone, String token) {
         return mUserApiService.changeLoveLevel(token, phone);
+    }
+
+    public Observable<StatusInfo> deleteNeed(String id, String token) {
+        return mUserApiService.deleteNeed(token, id);
     }
 }

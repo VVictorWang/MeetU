@@ -92,7 +92,7 @@ public class MainPresenter implements MainContract.Presenter, EditProfileActivit
                 .subscribe(new Observer<LoginResponse>() {
                     @Override
                     public void onCompleted() {
-                        mView.showMyToast("登录成功");
+
 //                            ActivityManager.finishActivity(getActivity());
                     }
 
@@ -108,6 +108,8 @@ public class MainPresenter implements MainContract.Presenter, EditProfileActivit
                             PrefUtils.putValue(AppUtils.getAppContext
                                             (), GlobaData.TOKEN,
                                     loginResponse.getToken());
+                            mView.showMyToast("登录成功");
+                            start();
                         }
                         Log.d("@vic", loginResponse.getStatus() + " ");
                     }

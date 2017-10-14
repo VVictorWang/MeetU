@@ -21,7 +21,7 @@ public interface EditUmbrellaContract {
 
         void showHelpView(NeedInfo needInfo);
 
-        void showFinishedView(NeedInfo needInfo);
+        void showFinishedView(NeedInfo needInfo,boolean flag);
 
         void showRunningView(NeedInfo needInfo);
 

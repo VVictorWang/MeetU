@@ -14,8 +14,11 @@ import com.hackday.play.data.NeedInfo;
 import com.hackday.play.data.UserInfo;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by victor on 17-6-3.
@@ -204,6 +207,27 @@ public class Utils {
             return String.format("%02d小时前", hour);
         }
         return String.format("%02d分钟前", munite);
+    }
+
+    public static boolean isOutdated(String continue_time, long created_time) {
+        Date date = new Date(created_time);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        if (continue_time.contains("分钟")) {
+            int minute = Integer.valueOf(getNumber(continue_time));
+            calendar.add(Calendar.MINUTE, minute);
+        } else if (continue_time.contains("小时")) {
+            int hour = Integer.valueOf(getNumber(continue_time));
+            calendar.add(Calendar.HOUR, hour);
+        }
+        return System.currentTimeMillis() < calendar.getTime().getTime();
+    }
+
+    private static  String getNumber(String strs) {
+        String reg = "[^0-9]";
+        Pattern p = Pattern.compile(reg);
+        Matcher m = p.matcher(strs);
+        return m.replaceAll("").trim();
     }
 
 

@@ -9,6 +9,7 @@ import com.hackday.play.data.UserInfo;
 import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -30,6 +31,10 @@ public interface UserApiService {
     @POST("user/{phone}")
     Observable<LoginResponse> login(@Path("phone") String phone, @Body RequestBody body);
 
+    @PUT("user/{phone}")
+    Observable<StatusInfo> editUser(@Path("phone") String phone, @Header("token") String token,
+                                    @Body RequestBody body);
+
     @GET("user/{phone}")
     Observable<Response<UserInfo>> getUserInfo(@Path("phone") String phone, @Header("token")
             String token);
@@ -50,5 +55,8 @@ public interface UserApiService {
     @GET("user/edit/{phone}")
     Observable<UserInfo> changeLoveLevel(@Header("token") String token, @Path("phone") String
             phone);
+
+    @DELETE("needs/{id}")
+    Observable<StatusInfo> deleteNeed(@Header("token") String token, @Path("id") String id);
 
 }
