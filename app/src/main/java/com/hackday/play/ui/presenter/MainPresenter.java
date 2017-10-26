@@ -64,6 +64,7 @@ public class MainPresenter implements MainContract.Presenter, EditProfileActivit
                             if (userInfoResponse.code() != 200) {
                                 mView.showEditView();
                             } else {
+                                mView.initFragment();
                                 Utils.updateUserInfo(userInfoResponse.body());
                                 mView.setUserPhone(userInfoResponse.body().getPhone());
                                 mView.setUserLove_Level(userInfoResponse.body().getLove_level());

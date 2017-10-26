@@ -66,7 +66,7 @@
                     android:layout_below="@+id/item_title"
                     android:layout_gravity="center"
                     android:layout_marginLeft="3dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="8dp"
                     android:layout_toRightOf="@+id/item_location_icon"
                     android:text="东九楼"
                     android:textColor="@color/FontColorDefault"

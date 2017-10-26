@@ -7,7 +7,9 @@ import android.os.Handler;
 import android.os.Looper;
 
 /**
- * Created by victor on 10/10/17.
+ *
+ * @author victor
+ * @date 10/10/17
  * email: chengyiwang@hustunique.com
  * blog: www.victorwang.science                                            #
  */

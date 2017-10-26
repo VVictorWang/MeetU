@@ -26,6 +26,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     private MyFragAdapter myFragAdapter;
     private List<Fragment> fragmentList = new ArrayList<>();
     private RelativeLayout tab1, tab2, tab3;
+    private SquareFragment fragment1, fragment2, fragment;
 
     @Nullable
     @Override
@@ -40,9 +41,9 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         tab2.setOnClickListener(this);
         tab3.setOnClickListener(this);
 
-        SquareFragment fragment1 = SquareFragment.newInstance(SquareFragment.STATUS_CREATED);
-        SquareFragment fragment = SquareFragment.newInstance(SquareFragment.STATUS_SHARED);
-        SquareFragment fragment2 = SquareFragment.newInstance(SquareFragment.STATUS_FINISHED);
+        fragment1 = SquareFragment.newInstance(SquareFragment.STATUS_CREATED);
+        fragment = SquareFragment.newInstance(SquareFragment.STATUS_SHARED);
+        fragment2 = SquareFragment.newInstance(SquareFragment.STATUS_FINISHED);
         fragmentList.add(fragment1);
         fragmentList.add(fragment);
         fragmentList.add(fragment2);
@@ -66,6 +67,12 @@ public class MyFragment extends Fragment implements View.OnClickListener {
             }
         });
         return view;
+    }
+
+    public void loadData() {
+        fragment.loadData();
+        fragment1.loadData();
+        fragment2.loadData();
     }
 
     @Override

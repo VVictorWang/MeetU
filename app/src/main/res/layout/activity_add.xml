@@ -116,6 +116,8 @@
             android:layout_gravity="center"
             android:hint="可以随便写两句话，大概在50字以内"
             android:textSize="12sp"
+            android:textCursorDrawable="@drawable/my_background"
+            android:gravity="center"
             android:background="@null"
             android:visibility="invisible"/>
 

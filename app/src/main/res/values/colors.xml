@@ -12,4 +12,5 @@
     <color name="black">#000</color>
     <color name="TabSelected">#6AAFE6</color>
     <color name="gray">#FF7B7D7E</color>
+    <color name="mygray">#a0a3a4</color>
 </resources>

@@ -20,6 +20,10 @@ public interface MainContract {
 
         void setUserPhone(String phone);
 
+        void initFragment();
+
+        void initTab();
+
     }
 
     interface Presenter extends BasePresenter {

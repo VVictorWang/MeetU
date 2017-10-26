@@ -55,6 +55,11 @@ public class SquareFragment extends Fragment implements SquareContract.View {
         return fragment;
     }
 
+
+    public void loadData() {
+        mPresenter.start();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable

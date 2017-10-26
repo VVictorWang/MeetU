@@ -57,8 +57,11 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="40dp"
             android:background="@null"
-            android:text="第一个没名字的"
+            android:gravity="right"
+            android:hint="输入您的昵称"
+            android:textColorHint="@color/blue"
             android:textColor="@color/blue"
+            android:textCursorDrawable="@drawable/my_background"
             android:textSize="14sp"/>
     </RelativeLayout>
 
@@ -88,10 +91,12 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="40dp"
             android:background="@null"
+            android:gravity="right"
             android:hint="请输入手机号"
             android:inputType="number"
             android:textColor="@color/blue"
             android:textColorHint="@color/blue"
+            android:textCursorDrawable="@drawable/my_background"
             android:textSize="14sp"/>
     </RelativeLayout>
 
@@ -121,6 +126,8 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="40dp"
             android:background="@null"
+            android:textCursorDrawable="@drawable/my_background"
+            android:gravity="center"
             android:hint="请输入密码"
             android:inputType="textPassword"
             android:textColor="@color/blue"
@@ -153,6 +160,8 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="40dp"
             android:background="@null"
+            android:textCursorDrawable="@drawable/my_background"
+            android:gravity="right"
             android:hint="请输入qq"
             android:inputType="number"
             android:textColor="@color/blue"
@@ -194,8 +203,9 @@
         android:id="@+id/confirm_edit"
         android:layout_width="160dp"
         android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="560dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/button_big_b"
         android:text="确认修改"
         android:textColor="@color/white"

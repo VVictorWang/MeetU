@@ -35,8 +35,6 @@ public class EditProfileActivity extends BaseActivity {
 
     private static NotifyLogin sNotifyLogin;
     private Subscription mSubscription;
-
-
     private EditText editname;
     private EditText editphone, editpassword;
     private EditText editqq;
@@ -45,8 +43,6 @@ public class EditProfileActivity extends BaseActivity {
     private Button confirm;
     private RelativeLayout password_layout;
     private NeedInfo mNeedInfo = new NeedInfo();
-    private boolean isEdit = false;
-    private String old_phone = "";
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -55,6 +51,12 @@ public class EditProfileActivity extends BaseActivity {
             }
         }
     };
+    private boolean isEdit = false;
+    private String old_phone = "";
+
+    public static void setNotifyLogin(NotifyLogin notifyLogin) {
+        sNotifyLogin = notifyLogin;
+    }
 
     @Override
     protected BasePresenter getPresnter() {
@@ -143,11 +145,10 @@ public class EditProfileActivity extends BaseActivity {
                             @Override
                             public void onNext(StatusInfo statusInfo) {
                                 if (statusInfo.getStatus() == 1) {
-                                    if (!isEdit) {
+                                    if (!isEdit)
                                         showToast("注册成功");
-                                    } else
+                                    else
                                         showToast("修改成功");
-
                                     Utils.updateUserInfo(userInfo);
                                     if (!isEdit) {
                                         PrefUtils.putValue(getActivity(), "password", password);
@@ -167,20 +168,16 @@ public class EditProfileActivity extends BaseActivity {
         });
     }
 
-    public static void setNotifyLogin(NotifyLogin notifyLogin) {
-        sNotifyLogin = notifyLogin;
-    }
-
-    public interface NotifyLogin {
-        void notify(String phone, String password);
-
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (mSubscription != null) {
             mSubscription.unsubscribe();
         }
+    }
+
+    public interface NotifyLogin {
+        void notify(String phone, String password);
+
     }
 }

@@ -25,6 +25,12 @@ public class MyFragAdapter extends FragmentPagerAdapter {
         this.frags = frags;
     }
 
+    public void setFragments(List<Fragment> fragments) {
+        frags.clear();
+        frags.addAll(fragments);
+        notifyDataSetChanged();
+    }
+
     public void addFragment(Fragment fragment) {
         frags.add(fragment);
     }

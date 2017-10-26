@@ -286,12 +286,12 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
     }
 
     @Override
-    public void showFinishedView(NeedInfo needInfo,boolean flag) {
+    public void showFinishedView(NeedInfo needInfo, boolean flag) {
         showBrowseView();
         editText.setVisibility(View.GONE);
         if (flag) {
             button.setText("已完成");
-        }else
+        } else
             button.setText("已结束");
         button.setVisibility(View.VISIBLE);
         button.setEnabled(false);
@@ -498,7 +498,6 @@ public class EditUmbrellaActivity extends BaseActivity implements EditUmbrellaCo
         });
 
     }
-
 
 
 }

@@ -43,7 +43,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     private RelativeLayout drawer;
     private TabLayout tabLayout;
     private TabLayout.Tab square, umbrella;
-    private static final String TAG = "MainActivity";
     private ViewPager viewPager;
     private MyFragAdapter myFragAdapter;
     private View view_square, view_umbrella;
@@ -51,13 +50,11 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     private ImageView avatar;
     private List<Fragment> fragmentList = new ArrayList<>();
     private SquareFragment fragment;
+    private MyFragment myFragment;
     private TextView user_name, user_love_level;
     private NeedInfo infor = new NeedInfo();
     private RelativeLayout location_info;
     private TextView user_location, user_location_detail, user_phone;
-
-    private MainContract.Presenter mPresenter;
-
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -67,6 +64,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
             }
         }
     };
+    private MainContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +119,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         viewPager = (ViewPager) findViewById(R.id.mViewPager);
         fragment = SquareFragment.newInstance(SquareFragment.STATUS_ALL);
         fragmentList.add(fragment);
-        MyFragment myFragment = new MyFragment();
+        myFragment = new MyFragment();
         fragmentList.add(myFragment);
         myFragAdapter = new MyFragAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(myFragAdapter);
@@ -132,6 +130,12 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         view_square.setBackground(getResources().getDrawable(R.drawable.iconhall));
         view_umbrella.setBackground(getResources().getDrawable(R.drawable.icontaskc));
         initTab();
+    }
+
+    @Override
+    public void initFragment() {
+        fragment.loadData();
+        myFragment.loadData();
     }
 
     @Override
@@ -191,11 +195,13 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
 
-    private void initTab() {
+    public void initTab() {
         square = tabLayout.getTabAt(0);
         umbrella = tabLayout.getTabAt(1);
+
         square.setCustomView(view_square);
         umbrella.setCustomView(view_umbrella);
+
     }
 
     @Override

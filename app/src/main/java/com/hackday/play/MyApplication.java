@@ -24,7 +24,6 @@ public class MyApplication extends Application {
         MyApplication.context = context;
     }
 
-
     @Override
     public void onCreate() {
         super.onCreate();
