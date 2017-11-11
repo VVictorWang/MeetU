@@ -1,4 +1,4 @@
-package com.hackday.play.data;
+package com.hackday.play.bean;
 
 /**
  * Created by victor on 10/10/17.

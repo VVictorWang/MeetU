@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hackday.play.R;
-import com.hackday.play.data.GlobaData;
-import com.hackday.play.data.NeedInfo;
+import com.hackday.play.bean.GlobaData;
+import com.hackday.play.bean.NeedInfo;
 import com.hackday.play.ui.adapters.MyRecyAdapter;
 import com.hackday.play.ui.contract.SquareContract;
 import com.hackday.play.ui.presenter.SquarePresenter;

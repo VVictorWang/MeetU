@@ -1,7 +1,7 @@
 package com.hackday.play.ui.presenter;
 
 import com.hackday.play.api.UserApi;
-import com.hackday.play.data.NeedInfo;
+import com.hackday.play.bean.NeedInfo;
 import com.hackday.play.ui.contract.EditUmbrellaContract;
 import com.hackday.play.utils.RxUtil;
 import com.hackday.play.utils.Utils;

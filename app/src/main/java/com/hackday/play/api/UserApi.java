@@ -1,15 +1,16 @@
 package com.hackday.play.api;
 
-import com.hackday.play.data.LoginResponse;
-import com.hackday.play.data.NeedInfo;
-import com.hackday.play.data.NeedList;
-import com.hackday.play.data.StatusInfo;
-import com.hackday.play.data.UserInfo;
+import android.arch.lifecycle.LiveData;
+
+import com.hackday.play.bean.LoginResponse;
+import com.hackday.play.bean.NeedInfo;
+import com.hackday.play.bean.NeedList;
+import com.hackday.play.bean.StatusInfo;
+import com.hackday.play.bean.UserInfo;
 
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -65,7 +66,7 @@ public class UserApi {
                 .setPhone(new_phone).setQq(qq).create());
     }
 
-    public Observable<Response<UserInfo>> getUserInfo(String phone, String token) {
+    public LiveData<ApiResponse<UserInfo>> getUserInfo(String phone, String token) {
         return mUserApiService.getUserInfo(phone, token);
     }
 

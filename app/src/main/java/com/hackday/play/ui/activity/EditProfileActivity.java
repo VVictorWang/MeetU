@@ -12,10 +12,10 @@ import android.widget.RelativeLayout;
 
 import com.hackday.play.R;
 import com.hackday.play.api.UserApi;
-import com.hackday.play.data.GlobaData;
-import com.hackday.play.data.NeedInfo;
-import com.hackday.play.data.StatusInfo;
-import com.hackday.play.data.UserInfo;
+import com.hackday.play.bean.GlobaData;
+import com.hackday.play.bean.NeedInfo;
+import com.hackday.play.bean.StatusInfo;
+import com.hackday.play.bean.UserInfo;
 import com.hackday.play.ui.base.BaseActivity;
 import com.hackday.play.ui.base.BasePresenter;
 import com.hackday.play.utils.ActivityManager;
@@ -115,7 +115,7 @@ public class EditProfileActivity extends BaseActivity {
                 String phone = editphone.getText().toString();
                 String password = editpassword.getText().toString();
                 final UserInfo userInfo = new UserInfo();
-                userInfo.setLove_level(0);
+                userInfo.setLoveLevel(0);
                 userInfo.setPhone(phone);
                 userInfo.setQq(qq);
                 userInfo.setNickname(name);

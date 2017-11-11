@@ -3,9 +3,9 @@ package com.hackday.play.ui.presenter;
 import android.util.Log;
 
 import com.hackday.play.api.UserApi;
-import com.hackday.play.data.GlobaData;
-import com.hackday.play.data.LoginResponse;
-import com.hackday.play.data.UserInfo;
+import com.hackday.play.bean.GlobaData;
+import com.hackday.play.bean.LoginResponse;
+import com.hackday.play.bean.UserInfo;
 import com.hackday.play.ui.activity.EditProfileActivity;
 import com.hackday.play.ui.contract.MainContract;
 import com.hackday.play.utils.AppUtils;
@@ -67,7 +67,7 @@ public class MainPresenter implements MainContract.Presenter, EditProfileActivit
                                 mView.initFragment();
                                 Utils.updateUserInfo(userInfoResponse.body());
                                 mView.setUserPhone(userInfoResponse.body().getPhone());
-                                mView.setUserLove_Level(userInfoResponse.body().getLove_level());
+                                mView.setUserLove_Level(userInfoResponse.body().getLoveLevel());
                                 mView.setUserName(userInfoResponse.body().getNickname());
                             }
                         }

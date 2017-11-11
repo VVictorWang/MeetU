@@ -1,4 +1,7 @@
-package com.hackday.play.data;
+package com.hackday.play.bean;
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
 import java.util.List;
 
@@ -8,6 +11,7 @@ import java.util.List;
  * blog: www.victorwang.science                                            #
  */
 
+@Entity(tableName = "user")
 public class UserInfo {
     /**
      * _id : No002
@@ -15,16 +19,17 @@ public class UserInfo {
      * phone : 15824578908
      * qq : 643708967
      * age : 18
-     * love_level : 0
+     * loveLevel : 0
      * needs : ["59d9f08fffc15019a717e10c","59d9f098ffc15019a717e10d"]
      */
 
     private String nickname;
+    @PrimaryKey
     private String phone;
-    private String qq;
-    private int love_level;
-    private List<String> needs;
 
+    private String qq;
+    private int loveLevel;
+    private List<String> needs;
 
 
     public String getNickname() {
@@ -53,12 +58,12 @@ public class UserInfo {
 
 
 
-    public int getLove_level() {
-        return love_level;
+    public int getLoveLevel() {
+        return loveLevel;
     }
 
-    public void setLove_level(int love_level) {
-        this.love_level = love_level;
+    public void setLoveLevel(int loveLevel) {
+        this.loveLevel = loveLevel;
     }
 
     public List<String> getNeeds() {

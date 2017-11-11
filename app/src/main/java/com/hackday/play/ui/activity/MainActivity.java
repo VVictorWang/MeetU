@@ -22,7 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hackday.play.R;
-import com.hackday.play.data.NeedInfo;
+import com.hackday.play.bean.NeedInfo;
 import com.hackday.play.service.NotificitionService;
 import com.hackday.play.ui.adapters.MyFragAdapter;
 import com.hackday.play.ui.base.BaseActivity;

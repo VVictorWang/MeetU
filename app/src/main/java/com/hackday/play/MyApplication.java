@@ -6,7 +6,7 @@ import android.content.Context;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.mapapi.SDKInitializer;
-import com.hackday.play.data.GlobaData;
+import com.hackday.play.bean.GlobaData;
 import com.hackday.play.utils.AppUtils;
 import com.hackday.play.utils.PrefUtils;
 import com.hackday.play.utils.Utils;
