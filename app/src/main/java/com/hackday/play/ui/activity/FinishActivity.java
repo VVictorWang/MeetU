@@ -9,9 +9,9 @@ import android.widget.TextView;
 
 import com.hackday.play.R;
 import com.hackday.play.api.UserApi;
-import com.hackday.play.data.GlobaData;
-import com.hackday.play.data.NeedInfo;
-import com.hackday.play.data.UserInfo;
+import com.hackday.play.bean.GlobaData;
+import com.hackday.play.bean.NeedInfo;
+import com.hackday.play.bean.UserInfo;
 import com.hackday.play.ui.base.BaseActivity;
 import com.hackday.play.ui.base.BasePresenter;
 import com.hackday.play.utils.ActivityManager;
@@ -113,7 +113,7 @@ public class FinishActivity extends BaseActivity {
                                             @Override
                                             public void onNext(UserInfo userInfo) {
                                                 PrefUtils.putIntValue(getActivity(), GlobaData
-                                                        .LOVE_LEVEL, userInfo.getLove_level());
+                                                        .LOVE_LEVEL, userInfo.getLoveLevel());
                                             }
                                         });
 //                                int level = PrefUtils.getIntValue(FinishActivity.this, GlobaData

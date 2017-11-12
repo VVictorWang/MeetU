@@ -8,7 +8,7 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-import com.hackday.play.data.GlobaData;
+import com.hackday.play.bean.GlobaData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,7 +34,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static com.hackday.play.data.GlobaData.PATH_DATA;
+import static com.hackday.play.bean.GlobaData.PATH_DATA;
 
 /**
  * Created by victor on 10/10/17.

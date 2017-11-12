@@ -17,8 +17,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.hackday.play.R;
-import com.hackday.play.data.GlobaData;
-import com.hackday.play.data.NeedInfo;
+import com.hackday.play.bean.GlobaData;
+import com.hackday.play.bean.NeedInfo;
 import com.hackday.play.ui.activity.MainActivity;
 import com.hackday.play.utils.PrefUtils;
 import com.hackday.play.utils.Utils;

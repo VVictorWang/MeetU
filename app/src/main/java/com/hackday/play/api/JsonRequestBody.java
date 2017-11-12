@@ -2,7 +2,7 @@ package com.hackday.play.api;
 
 import android.util.Log;
 
-import com.hackday.play.data.GlobaData;
+import com.hackday.play.bean.GlobaData;
 
 import org.json.JSONObject;
 

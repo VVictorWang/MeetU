@@ -9,9 +9,9 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
 import com.hackday.play.MyApplication;
-import com.hackday.play.data.GlobaData;
-import com.hackday.play.data.NeedInfo;
-import com.hackday.play.data.UserInfo;
+import com.hackday.play.bean.GlobaData;
+import com.hackday.play.bean.NeedInfo;
+import com.hackday.play.bean.UserInfo;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -164,7 +164,7 @@ public class Utils {
 
     public static void updateUserInfo(UserInfo userInfo) {
         PrefUtils.putIntValue(AppUtils.getAppContext(), GlobaData.LOVE_LEVEL, userInfo
-                .getLove_level());
+                .getLoveLevel());
         PrefUtils.putValue(AppUtils.getAppContext(), GlobaData.NICKNAME, userInfo.getNickname());
         PrefUtils.putValue(AppUtils.getAppContext(), GlobaData.PHONE, userInfo.getPhone());
         PrefUtils.putValue(AppUtils.getAppContext(), GlobaData.QQ, userInfo.getQq());

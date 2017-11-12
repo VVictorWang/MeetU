@@ -1,4 +1,4 @@
-package com.hackday.play.data;
+package com.hackday.play.bean;
 
 import com.hackday.play.utils.AppUtils;
 

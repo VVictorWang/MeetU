@@ -1,5 +1,9 @@
 package com.hackday.play.ui.contract;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleOwner;
+
+import com.hackday.play.UserViewModel;
 import com.hackday.play.ui.base.BasePresenter;
 import com.hackday.play.ui.base.BaseView;
 
@@ -24,6 +28,10 @@ public interface MainContract {
 
         void initTab();
 
+        UserViewModel getUserViewModel();
+
+
+        LifecycleOwner getLiftcycle();
     }
 
     interface Presenter extends BasePresenter {

@@ -1,8 +1,8 @@
 package com.hackday.play.ui.presenter;
 
 import com.hackday.play.api.UserApi;
-import com.hackday.play.data.NeedInfo;
-import com.hackday.play.data.NeedList;
+import com.hackday.play.bean.NeedInfo;
+import com.hackday.play.bean.NeedList;
 import com.hackday.play.ui.contract.SquareContract;
 import com.hackday.play.ui.fragments.SquareFragment;
 import com.hackday.play.utils.CheckUtil;

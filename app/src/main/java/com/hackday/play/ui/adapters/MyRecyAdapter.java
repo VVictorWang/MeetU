@@ -17,8 +17,8 @@ import android.widget.Toast;
 
 import com.hackday.play.R;
 import com.hackday.play.api.UserApi;
-import com.hackday.play.data.NeedInfo;
-import com.hackday.play.data.StatusInfo;
+import com.hackday.play.bean.NeedInfo;
+import com.hackday.play.bean.StatusInfo;
 import com.hackday.play.ui.activity.EditUmbrellaActivity;
 import com.hackday.play.utils.Utils;
 

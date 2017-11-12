@@ -1,13 +1,14 @@
 package com.hackday.play.api;
 
-import com.hackday.play.data.LoginResponse;
-import com.hackday.play.data.NeedInfo;
-import com.hackday.play.data.NeedList;
-import com.hackday.play.data.StatusInfo;
-import com.hackday.play.data.UserInfo;
+import android.arch.lifecycle.LiveData;
+
+import com.hackday.play.bean.LoginResponse;
+import com.hackday.play.bean.NeedInfo;
+import com.hackday.play.bean.NeedList;
+import com.hackday.play.bean.StatusInfo;
+import com.hackday.play.bean.UserInfo;
 
 import okhttp3.RequestBody;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -36,7 +37,7 @@ public interface UserApiService {
                                     @Body RequestBody body);
 
     @GET("user/{phone}")
-    Observable<Response<UserInfo>> getUserInfo(@Path("phone") String phone, @Header("token")
+    LiveData<ApiResponse<UserInfo>> getUserInfo(@Path("phone") String phone, @Header("token")
             String token);
 
     @GET("needs")

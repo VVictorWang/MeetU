@@ -1,6 +1,6 @@
 package com.hackday.play.ui.contract;
 
-import com.hackday.play.data.NeedInfo;
+import com.hackday.play.bean.NeedInfo;
 import com.hackday.play.ui.base.BasePresenter;
 import com.hackday.play.ui.base.BaseView;
 

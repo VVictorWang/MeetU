@@ -1,6 +1,8 @@
 package com.hackday.play.ui.activity;
 
 import android.app.Activity;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -22,7 +24,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hackday.play.R;
-import com.hackday.play.data.NeedInfo;
+import com.hackday.play.UserViewModel;
+import com.hackday.play.UserViewModelFactory;
+import com.hackday.play.bean.NeedInfo;
+import com.hackday.play.db.MyDataBase;
 import com.hackday.play.service.NotificitionService;
 import com.hackday.play.ui.adapters.MyFragAdapter;
 import com.hackday.play.ui.base.BaseActivity;
@@ -66,9 +71,16 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     };
     private MainContract.Presenter mPresenter;
 
+    private UserViewModel mUserViewModel;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mPresenter = new MainPresenter(this);
+        UserViewModelFactory modelFactory = new UserViewModelFactory(MyDataBase.getInstance(this)
+                .userDao
+                ());
+        mUserViewModel = ViewModelProviders.of(this, modelFactory).get(UserViewModel.class);
         super.onCreate(savedInstanceState);
         startService(new Intent(MainActivity.this, NotificitionService.class));
         Utils.getLocation(infor, handler, true);
@@ -202,6 +214,16 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         square.setCustomView(view_square);
         umbrella.setCustomView(view_umbrella);
 
+    }
+
+    @Override
+    public UserViewModel getUserViewModel() {
+        return mUserViewModel;
+    }
+
+    @Override
+    public LifecycleOwner getLiftcycle() {
+        return this;
     }
 
     @Override
