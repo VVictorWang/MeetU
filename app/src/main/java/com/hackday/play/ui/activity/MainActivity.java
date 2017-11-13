@@ -79,7 +79,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         mPresenter = new MainPresenter(this);
         UserViewModelFactory modelFactory = new UserViewModelFactory(MyDataBase.getInstance(this)
                 .userDao
-                ());
+                        ());
         mUserViewModel = ViewModelProviders.of(this, modelFactory).get(UserViewModel.class);
         super.onCreate(savedInstanceState);
         startService(new Intent(MainActivity.this, NotificitionService.class));

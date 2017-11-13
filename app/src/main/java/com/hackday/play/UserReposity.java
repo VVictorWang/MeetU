@@ -9,6 +9,8 @@ import com.hackday.play.api.Resource;
 import com.hackday.play.api.UserApi;
 import com.hackday.play.bean.UserInfo;
 import com.hackday.play.db.UserDao;
+import com.hackday.play.db.UserDao;
+import com.hackday.play.bean.UserInfo;
 import com.hackday.play.utils.AppExecutors;
 import com.hackday.play.utils.NetworkBoundResource;
 

@@ -1,10 +1,16 @@
 package com.hackday.play.db;
 
 import android.arch.persistence.room.Database;
+<<<<<<< HEAD
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+=======
+import android.arch.persistence.room.RoomDatabase;
+
+import com.hackday.play.db.UserDao;
+>>>>>>> refs/remotes/origin/master
 import com.hackday.play.bean.UserInfo;
 
 /**
@@ -15,6 +21,7 @@ import com.hackday.play.bean.UserInfo;
 
 @Database(entities = {UserInfo.class}, version = 1)
 public abstract class MyDataBase extends RoomDatabase {
+<<<<<<< HEAD
     abstract public UserDao userDao();
 
     private static MyDataBase instance;
@@ -27,4 +34,7 @@ public abstract class MyDataBase extends RoomDatabase {
         return instance;
 
     }
+=======
+    public abstract UserDao userDao();
+>>>>>>> refs/remotes/origin/master
 }
