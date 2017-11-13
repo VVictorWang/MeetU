@@ -12,7 +12,6 @@ import java.util.concurrent.Executors;
  * email: chengyiwang@hustunique.com
  * blog: www.victorwang.science                                            #
  */
-
 public class AppExecutors {
 
     private final Executor diskIO;
@@ -27,6 +26,11 @@ public class AppExecutors {
         this.mainThread = mainThread;
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static AppExecutors getInstance() {
         if (instance == null) {
             instance = new AppExecutors(Executors.newSingleThreadExecutor(), Executors
@@ -36,14 +40,29 @@ public class AppExecutors {
         return instance;
     }
 
+    /**
+     * Disk io executor.
+     *
+     * @return the executor
+     */
     public Executor diskIO() {
         return diskIO;
     }
 
+    /**
+     * Network io executor.
+     *
+     * @return the executor
+     */
     public Executor networkIO() {
         return networkIO;
     }
 
+    /**
+     * Main thread executor.
+     *
+     * @return the executor
+     */
     public Executor mainThread() {
         return mainThread;
     }
